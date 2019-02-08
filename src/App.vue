@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Sidebar/>
+
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -37,7 +38,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Sidebar from '@/components/Sidebar.vue';
+import Sidebar from '@/components/Sidebar/Sidebar.vue';
 
 @Component({
   components: {
