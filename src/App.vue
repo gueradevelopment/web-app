@@ -2,13 +2,16 @@
   <div id="app">
     <Sidebar/>
 
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="content">
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+      <div id="viewer">
+        <router-view/>
+      </div>
     </div>
-    <div id="viewer">
-      <router-view/>
-    </div>
+
   </div>
 </template>
 
@@ -17,15 +20,22 @@
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+}
+#content {
   color: #2c3e50;
-}
-#viewer {
+  // text-align: center;
+  width: 100%;
   position: absolute;
-  left: 300px;
+  left: 440px;
+  height: 100%;
 }
+
 #nav {
-  padding: 30px;
+  padding-top: 20px;
+  position: absolute;
+  width: 100%;
+  height: 10%;
+  min-height: 50px;
   a {
     font-weight: bold;
     color: #2c3e50;
@@ -33,6 +43,13 @@
       color: #42b983;
     }
   }
+}
+
+#viewer {
+  position: absolute;
+  top: 50px;
+  height: 90%;
+  width: 100%;
 }
 </style>
 

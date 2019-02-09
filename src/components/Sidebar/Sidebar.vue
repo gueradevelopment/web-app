@@ -1,7 +1,11 @@
 <template>
     <div id="menu-container">
-        <IconsBar/>
+        <IconsBar v-on:search-clicked="searchClicked"/>
         <MenuBar/>
+
+        <SearchModal :open="showSearch" @close="closeSearch">
+        </SearchModal>
+
     </div>
 </template>
 
@@ -10,16 +14,29 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import IconsBar from '@/components/Sidebar/IconsBar.vue'
 import MenuBar from '@/components/Sidebar/MenuBar.vue'
+import SearchModal from '@/components/Sidebar/SearchModal.vue'
 
 @Component({
     components: {
         IconsBar,
-        MenuBar
+        MenuBar,
+        SearchModal,
     }
 })
 export default class Sidebar extends Vue {
+    showSearch: boolean;
+
     constructor() {
         super();
+        this.showSearch = false;
+    }
+
+    searchClicked() {
+        this.showSearch = true;
+    }
+
+    closeSearch() {
+        this.showSearch = false
     }
 }
 </script>
@@ -37,7 +54,7 @@ $bg-color: $l-green-pal;
 #menu-container {
     position: absolute;
     background-color: $bg-color;
-    min-width: 300px;
+    min-width: 400px;
     height: 100%;
 }
 </style>

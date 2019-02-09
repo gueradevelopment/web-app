@@ -16,7 +16,8 @@
             @mouseleave="hoverSearch=false" 
             :class="{ hovering_bg: hoverSearch }"
             class="circle-container centered" 
-            id="search-container">       
+            id="search-container"
+            @click="search">       
 
             <img id="search-picture"
                 src="@/assets/search.svg">
@@ -39,6 +40,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
+import { Emit } from 'vue-property-decorator';
 
 @Component
 export default class IconsBar extends Vue {
@@ -52,6 +54,9 @@ export default class IconsBar extends Vue {
         this.hoverProfile = false;
         this.hoverLogo = false;
     }
+
+    @Emit("search-clicked")
+    search(){};
 }
 </script>
 
@@ -76,7 +81,8 @@ $bg-color: $l-green-pal;
 #logo-container {
     top: 20px;
     position: absolute;
-    left: 13px;
+    left: 5px;
+    cursor: pointer;
 }
 
 #logo-picture {
@@ -87,8 +93,9 @@ $bg-color: $l-green-pal;
 
 #search-container {
     position: absolute;
-    top: 75px;
-    left: 13px
+    top: 85px;
+    left: 5px;
+    cursor: pointer;
 }
 
 #search-picture {
@@ -100,7 +107,8 @@ $bg-color: $l-green-pal;
 #profile-container {
     bottom: 30px;
     position: absolute;
-    left: 13px
+    left: 5px;
+    cursor: pointer;
 }
 
 #profile-picture {
