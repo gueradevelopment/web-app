@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Sidebar/>
+    <Sidebar :sidebarActive.sync="sidebarActive" ref="Sidebar"/>
 
-    <div id="content">
+    <div id="content" @click="deactivate" :class="{ sidebarActive }">
       <div id="nav">
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
@@ -15,19 +15,48 @@
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Sidebar from '@/components/Sidebar/Sidebar.vue';
+
+@Component({
+  components: {
+    Sidebar,
+  },
+})
+export default class App extends Vue {
+  sidebarActive: Boolean;
+
+  constructor() {
+    super();
+    this.sidebarActive = false;
+  }
+
+  deactivate() {
+    this.sidebarActive = false;
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 #content {
   color: #2c3e50;
   // text-align: center;
   width: 100%;
   position: absolute;
-  left: 440px;
   height: 100%;
+  left: 100px;  
+}
+
+#content.sidebarActive {
+  left: 440px;
+  transition: visibility 250ms, opacity 250ms;
 }
 
 #nav {
@@ -52,15 +81,3 @@
   width: 100%;
 }
 </style>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Sidebar from '@/components/Sidebar/Sidebar.vue';
-
-@Component({
-  components: {
-    Sidebar,
-  },
-})
-export default class App extends Vue {}
-</script>

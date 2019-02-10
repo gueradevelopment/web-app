@@ -1,8 +1,9 @@
 <template>
-    <div class="modal" :class="{ open }">
-        <div class="modal-content">
+    <div id="modal" :class="{ open }">
+        <div id="modal-content">
             <SearchIcons @close="close"/>
-
+        </div>
+        <div id="grey-area" @click="close">
         </div>
     </div>
 </template>
@@ -19,7 +20,6 @@ import SearchIcons from '@/components/Sidebar/SearchIcons.vue'
     }
 })
 export default class SearchModal extends Vue {
-    @Prop({ required: true, type: String }) title!:String;
     @Prop({ required: true, type: Boolean, default: false }) open!:Boolean;
     @Emit("close")
         close(){};
@@ -45,7 +45,7 @@ $l-green-pal-grey: #98BAB1;
 $pink-pal-grey: #CEA098;
 $bg-color: #FFFFFF;
 
-.modal {
+#modal {
     background-color: rgba(0,0,0,.75);
     position: absolute;
     display: flex;
@@ -55,16 +55,24 @@ $bg-color: #FFFFFF;
     transition: visibility 250ms, opacity 250ms;
     z-index: -1;
 }
-.modal.open {
+#modal.open {
     opacity: 1;
     visibility: visible;
     z-index: 2;
 }
-.modal-content {
+#modal-content {
     background-color: #fff;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,.25);
     display: inline-block;
     width: 400px;
+    height: 100%;
     transition: transform 450ms ease;
+    position: absolute;
+}
+#grey-area {
+    position: absolute;
+    height: 100%;
+    left: 400px;
+    width: 100%;
 }
 </style>

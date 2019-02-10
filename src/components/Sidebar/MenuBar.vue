@@ -35,9 +35,10 @@ $bg-color: $l-green-pal;
 #menu-wrapper {
     padding: 10px;
     position: absolute;
-    width: 80%;
-    left: 20%;
+    width: 310px;
+    left: 70px;
     height: 100%;
+    background-color: $bg-color;
 }
 
 #name-picture {

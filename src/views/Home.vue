@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img src="../assets/logo_name.svg" width="200px">
+    <!-- <img src="../assets/logo_name.svg" width="200px"> -->
     <h1>Welcome to Guera</h1>
   </div>
 </template>

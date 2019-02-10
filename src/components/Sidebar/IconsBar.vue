@@ -74,8 +74,8 @@ $bg-color: $l-green-pal;
     padding: 10px;
     position: absolute;
     min-width: 50px;
-    width: 20%;
     height: 100%;
+    background-color: $bg-color;
 }
 
 #logo-container {
