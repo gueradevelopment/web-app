@@ -60,7 +60,7 @@ export default class App extends Vue {
 }
 
 #content.sidebarActive {
-  left: 440px;
+  left: 380px;
   transition: visibility 250ms, opacity 250ms;
 }
 

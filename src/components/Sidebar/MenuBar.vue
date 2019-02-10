@@ -2,6 +2,24 @@
     <div id="menu-wrapper">
         <img id="name-picture"
             src="@/assets/name_w.svg">
+
+        <div id="options-wrapper">
+            <div class="option-container">
+                <img class="image-icon" src="@/assets/board_w.svg">
+                <span class="option-descriptor">Your Guera Books</span>
+            </div>
+
+            <div class="option-container">
+                <img class="image-icon" src="@/assets/groups.svg">
+                <span class="option-descriptor">Manage Groups</span>
+            </div>
+
+            <div class="option-container">
+                <img class="image-icon" src="@/assets/settings.svg">
+                <span class="option-descriptor">Settings</span>
+            </div>
+        </div>
+        
     </div>
 </template>
 
@@ -35,7 +53,7 @@ $bg-color: $l-green-pal;
 #menu-wrapper {
     padding: 10px;
     position: absolute;
-    width: 310px;
+    width: 260px;
     left: 70px;
     height: 100%;
     background-color: $bg-color;
@@ -44,7 +62,40 @@ $bg-color: $l-green-pal;
 #name-picture {
     position: absolute;
     width: 40%;
-    top: 32px;
+    top: 31px;
+    left: 20px;
+}
+
+#options-wrapper {
+    position: absolute;
+    top: 78px;
     left: 15px;
+    font-family: "Sky Sans";
+    font-size: 17px;
+}
+
+.option-container {
+    margin: 5px 0px;
+    border-radius: 15px;
+    padding: 5px 5px;
+    height: 50px;
+    width: 250px;
+}
+
+.image-icon {
+    position: absolute;
+    height: 40px;
+    margin-top: 5px;
+}
+
+span.option-descriptor {
+    position: absolute;
+    left: 70px;
+    margin-top: 13px;
+    color: white;
+}
+
+.option-container:hover {
+    background-color: $l-green-pal-grey;
 }
 </style>

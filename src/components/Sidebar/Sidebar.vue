@@ -72,7 +72,7 @@ $bg-color: $l-green-pal;
 #menu-container.sidebarActive {
     position: absolute;
     background-color: $bg-color;
-    min-width: 400px;
+    min-width: 350px;
     height: 100%;
 }
 
