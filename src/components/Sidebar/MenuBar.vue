@@ -43,7 +43,7 @@ $bg-color: $l-green-pal;
 
 #name-picture {
     position: absolute;
-    width: 50%;
+    width: 40%;
     top: 32px;
     left: 15px;
 }

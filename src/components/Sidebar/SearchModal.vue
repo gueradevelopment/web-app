@@ -2,6 +2,7 @@
     <div id="modal" :class="{ open }">
         <div id="modal-content">
             <SearchIcons @close="close"/>
+            <SearchContent/>
         </div>
         <div id="grey-area" @click="close">
         </div>
@@ -13,10 +14,12 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop, Emit } from 'vue-property-decorator'
 import SearchIcons from '@/components/Sidebar/SearchIcons.vue'
+import SearchContent from '@/components/Sidebar/SearchContent.vue'
 
 @Component({
     components:{
         SearchIcons,
+        SearchContent
     }
 })
 export default class SearchModal extends Vue {
@@ -69,6 +72,7 @@ $bg-color: #FFFFFF;
     transition: transform 450ms ease;
     position: absolute;
 }
+
 #grey-area {
     position: absolute;
     height: 100%;

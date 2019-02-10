@@ -39,6 +39,11 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@font-face {
+    font-family: 'Sky Sans';
+    src: url('/assets/SkySans.ttf') format('truetype');
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
