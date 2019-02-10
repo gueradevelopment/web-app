@@ -60,18 +60,20 @@ $bg-color: #FFFFFF;
 #item-wrapper:hover {
     border-radius: 15px;
     border: 3px solid $pink-pal;
+    background-color: $pink-pal;
+    cursor: pointer;
 }
 
 #image-container {
     position: absolute;
     width: 30px;
-    margin-left: 5px;
-    margin-top: 7px;
+    margin-left: 10px;
+    margin-top: 9px;
 }
 
 #data-container {
     position: absolute;
-    margin-left: 50px;
+    margin-left: 60px;
 }
 
 #data-container.task {
