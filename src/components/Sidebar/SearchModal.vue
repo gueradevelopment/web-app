@@ -2,7 +2,7 @@
     <div id="modal" :class="{ open }">
         <div id="modal-content">
             <SearchIcons @close="close"/>
-            <SearchContent ref="SearchContent"/>
+            <SearchContent/>
         </div>
         <div id="grey-area" @click="close">
         </div>
@@ -33,8 +33,8 @@ export default class SearchModal extends Vue {
     }
 
     close() {
+        this.$root.$emit("clearSearch");
         this.$emit("close");
-        this.$refs.SearchContent.clear();
     }
 }
 </script>

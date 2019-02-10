@@ -63,9 +63,11 @@ export default class SearchContent extends Vue {
         this.result = {};
     }
 
-    clear() {
-        this.queryText = "";
-        this.result = {};
+    mounted() {
+        this.$root.$on("clearSearch", () => {
+            this.queryText = "";
+            this.result = {};
+        });
     }
 
     onInput() {
