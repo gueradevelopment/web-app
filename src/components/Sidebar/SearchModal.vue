@@ -2,7 +2,7 @@
     <div id="modal" :class="{ open }">
         <div id="modal-content">
             <SearchIcons @close="close"/>
-            <SearchContent/>
+            <SearchContent ref="SearchContent"/>
         </div>
         <div id="grey-area" @click="close">
         </div>
@@ -24,8 +24,6 @@ import SearchContent from '@/components/Sidebar/SearchContent.vue'
 })
 export default class SearchModal extends Vue {
     @Prop({ required: true, type: Boolean, default: false }) open!:Boolean;
-    @Emit("close")
-        close(){};
 
     hoverBack:Boolean;
 
@@ -34,6 +32,10 @@ export default class SearchModal extends Vue {
         this.hoverBack = false;
     }
 
+    close() {
+        this.$emit("close");
+        this.$refs.SearchContent.clear();
+    }
 }
 </script>
 
