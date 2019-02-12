@@ -1,16 +1,12 @@
 <template>
-  <div class="task detail">
-    <h1>This is the task {{id}} page</h1>
-    <input type="checkbox" name="task"
-      :checked="currentTask.completed">{{currentTask.title}}<br>
-    <h4>{{currentTask.description}}</h4>
-  </div>
+  <TaskDetail :task="currentTask" />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import {Route} from 'vue-router'
 import Component from 'vue-class-component';
+import TaskDetail from './TaskDetail.vue';
 
 interface WithRoute {
 	$route: Route
@@ -22,8 +18,12 @@ interface Task {
   completed: boolean;
 }
 
-@Component
-export default class TaskDetail extends Vue implements WithRoute {
+@Component({
+  components: {
+    TaskDetail
+  }
+})
+export default class test_TaskDetail extends Vue implements WithRoute {
   id: number;
   tasks: { [id: number] : Task; } = {};
   currentTask: Task;
