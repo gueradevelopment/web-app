@@ -1,8 +1,9 @@
 <template>
   <div class="task detail">
-    <h1>This is a task page {{id}}</h1>
-    <input type="checkbox" name="vehicle1"
-      :checked="currentTask.completed">{{currentTask.description}}<br>
+    <h1>This is the task {{id}} page</h1>
+    <input type="checkbox" name="task"
+      :checked="currentTask.completed">{{currentTask.title}}<br>
+    <h4>{{currentTask.description}}</h4>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ interface WithRoute {
 }
 
 interface Task {
+  title: string;
   description: string;
   completed: boolean;
 }
@@ -29,9 +31,9 @@ export default class TaskDetail extends Vue implements WithRoute {
   constructor() {
     super();
     this.id = 0;
-    this.tasks[1] = { description: "Task 1", completed: false}
-    this.tasks[2] = { description: "Task 2", completed: true}
-    this.currentTask = { description: "default blah blah", completed: false}
+    this.tasks[1] = { title: "Task 1", description: "this is the Task 1", completed: false}
+    this.tasks[2] = { title: "Task 2", description: "this is the Task 2", completed: true}
+    this.currentTask = { title: "title", description: "default blah blah", completed: false}
   }
 
   created () {
