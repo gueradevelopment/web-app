@@ -1,9 +1,6 @@
 <template>
   <div>
     <TaskDetail :task="currentTask" />
-    <br>
-    <br>
-    <h2>Testing the checklist compoenent detail</h2>
     <div>
       <CheckListDetail title="My checklist" :tasks="tasks" />
     </div>
