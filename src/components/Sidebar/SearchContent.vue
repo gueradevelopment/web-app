@@ -96,12 +96,12 @@ $pink-pal-grey: #CEA098;
 $bg-color: #FFFFFF;
 
 #content-wrapper {
-    padding-top: 80px;
+    padding-top: 20%;
     left: 20%;
-    padding: 10px;
+    // padding: 10px;
     position: absolute;
     width: 80%;
-    height: 100vh;
+    height: 85%;
 }
 
 input[type=text] {

@@ -71,7 +71,9 @@ $pink-pal-grey: #CEA098;
 $bg-color: $l-green-pal;
 
 #icon-wrapper {
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     position: absolute;
     min-width: 50px;
     height: 100%;
@@ -105,7 +107,7 @@ $bg-color: $l-green-pal;
 }
 
 #profile-container {
-    bottom: 30px;
+    bottom: 15px;
     position: absolute;
     left: 5px;
     cursor: pointer;

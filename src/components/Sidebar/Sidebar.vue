@@ -67,6 +67,7 @@ $bg-color: $l-green-pal;
     background-color: $bg-color;
     width: auto;
     height: 100%;
+    max-height: calc(100vh - 20px);
 }
 
 #menu-container.sidebarActive {
