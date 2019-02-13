@@ -82,7 +82,8 @@ export default class App extends Vue {
 #viewer {
   position: absolute;
   top: 50px;
-  height: 90%;
+  height: 100%;
+  max-height: calc(100vh - 40px);
   width: 100%;
 }
 </style>
