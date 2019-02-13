@@ -44,7 +44,7 @@
     @Component
     export default class Task extends Vue {
 
-        private url = "https://5bae7dbc-83e4-4aa0-afd9-be942edabab5.mock.pstmn.io/tasks";
+        private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
 
         @Prop() private id!: string;
         @Prop() private title: string = "";
