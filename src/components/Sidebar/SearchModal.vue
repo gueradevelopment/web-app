@@ -33,6 +33,7 @@ export default class SearchModal extends Vue {
     }
 
     close() {
+        console.log("Hello")
         this.$root.$emit("clearSearch");
         this.$emit("close");
     }
@@ -78,7 +79,7 @@ $bg-color: #FFFFFF;
 #grey-area {
     position: absolute;
     height: 100%;
-    //left: 400px;
+    left: 400px;
     width: 100%;
 }
 </style>
