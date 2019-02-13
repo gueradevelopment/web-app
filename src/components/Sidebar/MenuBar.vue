@@ -51,7 +51,9 @@ $pink-pal-grey: #CEA098;
 $bg-color: $l-green-pal;
 
 #menu-wrapper {
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     position: absolute;
     width: 260px;
     left: 70px;
