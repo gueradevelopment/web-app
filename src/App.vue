@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app>
     <Sidebar :sidebarActive.sync="sidebarActive" ref="Sidebar"/>
 
     <div id="content" @click="deactivate" :class="{ sidebarActive }">
@@ -11,8 +11,8 @@
         <router-view/>
       </div>
     </div>
-
-  </div>
+    
+  </v-app>
 </template>
 
 <script lang="ts">
