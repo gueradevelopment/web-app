@@ -68,7 +68,7 @@ $bg-color: #FFFFFF;
     position: absolute;
     width: 30px;
     margin-left: 10px;
-    margin-top: 9px;
+    margin-top: 7px;
 }
 
 #data-container {
@@ -77,11 +77,11 @@ $bg-color: #FFFFFF;
 }
 
 #data-container.task {
-    margin-top: 5px;
+    margin-top: 1px;
 }
 
 #data-container.board {
-    margin-top: 15px;
+    margin-top: 13px;
 }
 
 span {

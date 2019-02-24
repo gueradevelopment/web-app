@@ -56,7 +56,7 @@ $bg-color: $l-green-pal;
     padding-right: 10px;
     position: absolute;
     width: 260px;
-    left: 70px;
+    left: 60px;
     height: 100%;
     background-color: $bg-color;
 }
@@ -87,13 +87,12 @@ $bg-color: $l-green-pal;
 .image-icon {
     position: absolute;
     height: 40px;
-    margin-top: 5px;
 }
 
 span.option-descriptor {
     position: absolute;
     left: 70px;
-    margin-top: 13px;
+    margin-top: 5px;
     color: white;
 }
 

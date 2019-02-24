@@ -66,15 +66,14 @@ $bg-color: $l-green-pal;
     position: absolute;
     background-color: $bg-color;
     width: auto;
-    height: 100%;
-    max-height: calc(100vh - 20px);
+    height: 100vh;
 }
 
 #menu-container.sidebarActive {
     position: absolute;
     background-color: $bg-color;
     min-width: 350px;
-    height: 100%;
+    height: 100vh;
 }
 
 #menubar-container {
