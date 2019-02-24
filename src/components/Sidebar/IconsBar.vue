@@ -75,8 +75,8 @@ $bg-color: $l-green-pal;
     padding-left: 10px;
     padding-right: 10px;
     position: absolute;
-    min-width: 50px;
-    height: 100%;
+    min-width: 60px;
+    height: 100vh;
     background-color: $bg-color;
 }
 
