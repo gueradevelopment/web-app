@@ -1,9 +1,30 @@
 <template>
+
   <div class="task detail">
-    <h1>{{ task.title }}</h1>
-    <input type="checkbox" name="task"
-      :checked="task.completed">{{ task.title }}<br>
-    <h4>{{ task.description }}</h4>
+    <v-card>
+      <v-card-title
+          class="headline grey lighten-2"
+          primary-title
+      >
+      {{ task.title }}}
+      </v-card-title>
+      
+      <v-card-text>{{ task.title }}</v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+          color="primary"
+          flat
+          @click="dialog = false"
+      >
+          Ok
+      </v-btn>
+      
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -18,7 +39,8 @@ interface Task {
 
 @Component
 export default class TaskDetail extends Vue {
-	@Prop() private task!: Task;
+  @Prop() private task!: Task;
+  @Prop() private dialog: boolean = false;
 
 }
 </script>
