@@ -56,10 +56,10 @@ $pink-pal-grey: #CEA098;
 $bg-color: #FFFFFF;
 
 #icon-wrapper {
-    padding: 10px;
+    padding-top: 10px;
     position: absolute;
     width: 20%;
-    height: 100%;
+    height: 99%;
 }
 
 #logo-container {

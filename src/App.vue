@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app>
     <Sidebar :sidebarActive.sync="sidebarActive" ref="Sidebar"/>
 
     <div id="content" @click="deactivate" :class="{ sidebarActive }">
@@ -12,8 +12,8 @@
         <router-view/>
       </div>
     </div>
-
-  </div>
+    
+  </v-app>
 </template>
 
 <script lang="ts">
@@ -49,6 +49,8 @@ export default class App extends Vue {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  max-height: calc(100vh - 20px);
 }
 
 #content {
@@ -58,6 +60,7 @@ export default class App extends Vue {
   position: absolute;
   height: 100%;
   left: 100px;  
+  max-height: calc(100% - 20px);
 }
 
 #content.sidebarActive {
@@ -84,7 +87,7 @@ export default class App extends Vue {
   position: absolute;
   top: 50px;
   height: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: calc(100% - 30px);
   width: 100%;
 }
 </style>
