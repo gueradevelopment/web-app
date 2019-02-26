@@ -5,8 +5,7 @@
     <div id="content" @click="deactivate" :class="{ sidebarActive }">
       <div id="nav">
         <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/task/1">Task</router-link>
+        <router-link to="/about">About</router-link>
       </div>
       <div id="viewer">
         <router-view/>
