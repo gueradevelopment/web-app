@@ -19,7 +19,38 @@
                 {{ "El Guera" }}
             </i>
         </div>
+        <v-dialog
+            v-model="dialog"
+            width="500"
+        >
+            <v-card>
+                <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title
+                >
+                {{ this.title }}
+                </v-card-title>
+                
+                <v-card-text>{{ this.description }}</v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="primary"
+                    flat
+                    @click="dialog = false"
+                >
+                    Ok
+                </v-btn>
+                
+                </v-card-actions>
+                </v-card>
+        </v-dialog>
     </div>
+    
+    
 </template>
 
 <script lang="ts">
@@ -50,6 +81,7 @@
         @Prop() private title: string = "";
         @Prop() private shortDescription: string = "";
         @Prop() private description: string = "";
+        private dialog: boolean = false;
 
         constructor() {
             super();
@@ -75,6 +107,7 @@
 
         onClick(e: MouseEvent) {
             console.log("Clicked");
+            this.dialog = true;
         }
 
         onEdit(e: MouseEvent) {
