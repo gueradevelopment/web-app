@@ -71,7 +71,6 @@ export default class SearchContent extends Vue {
     }
 
     onInput() {
-        console.log("hello")
         // MOCK JSON RESPONSE
         if(this.queryText.length > 0) {
             this.result = this.mockResult;

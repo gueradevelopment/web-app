@@ -33,7 +33,6 @@ export default class SearchModal extends Vue {
     }
 
     close() {
-        console.log("Hello")
         this.$root.$emit("clearSearch");
         this.$emit("close");
     }

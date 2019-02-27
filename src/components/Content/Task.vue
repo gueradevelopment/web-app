@@ -67,7 +67,6 @@
             const payload = await response.json();
             
             if (isTaskGet(payload)) {
-                console.log(payload)
                 this.currentTask.id = payload.id != undefined ? payload.id : "";
                 this.currentTask.title = payload.title != undefined ? payload.title : "";
                 this.currentTask.description = payload.description != undefined ? payload.description : "";
@@ -79,7 +78,6 @@
         }
 
         onClick(e: MouseEvent) {
-            console.log("Clicked");
             this.dialog = true;           
         }
 
