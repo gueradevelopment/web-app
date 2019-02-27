@@ -1,46 +1,61 @@
 <template>
+  <v-dialog
+      v-model="dialog"
+      width="500"
+  >
+    <div class="task detail">
+      <v-card>
+        <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+        >
+        {{ currentTask.title }}
+        </v-card-title>
+        
+        <v-card-text>{{ currentTask.description }}</v-card-text>
 
-  <div class="task detail">
-    <v-card>
-      <v-card-title
-          class="headline grey lighten-2"
-          primary-title
-      >
-      {{ task.title }}}
-      </v-card-title>
-      
-      <v-card-text>{{ task.title }}</v-card-text>
+        <v-divider></v-divider>
 
-      <v-divider></v-divider>
-
-      <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn
-          color="primary"
-          flat
-          @click="dialog = false"
-      >
-          Ok
-      </v-btn>
-      
-      </v-card-actions>
-    </v-card>
-  </div>
+        <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="primary"
+            flat
+            @click="closeModal"
+        >
+            Ok
+        </v-btn>
+        
+        </v-card-actions>
+      </v-card>
+   </div>
+  </v-dialog>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator"
-
-interface Task {
-  title: string;
-  description: string;
-  completed: boolean;
-}
+import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator"
+import { Task } from "@/models/BoardModel"
 
 @Component
 export default class TaskDetail extends Vue {
-  @Prop() private task!: Task;
-  @Prop() private dialog: boolean = false;
+  @Prop({ required: true }) currentTask: Task;
+  @Prop({ required: true }) dialog:boolean;
+
+  constructor() {
+    super();
+    this.dialog = false;
+    this.currentTask = { id: "", title: "", description: "", shortDescription: ""};
+  }
+
+  @Watch('dialog')
+  onDialogChanged(val: string, oldVal: string) {
+    if(!val) {
+      this.closeModal();
+    }
+  }
+
+  @Emit("closed-modal")
+  closeModal(){}
 
 }
 </script>
