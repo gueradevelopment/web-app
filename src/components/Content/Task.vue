@@ -46,9 +46,9 @@
     })
     export default class Task extends Vue {
         @Prop() private id!: string;
-        @Prop() private title: string = "";
-        @Prop() private shortDescription: string = "";
-        @Prop() private description: string = "";
+        @Prop() private title!: string;
+        @Prop() private shortDescription!: string;
+        @Prop() private description!: string;
         private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
         private dialog: boolean = false;
         currentTask: TaskInterface = { id: "", title: "", description: "", shortDescription: ""};

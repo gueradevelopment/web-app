@@ -38,13 +38,11 @@ import { Task } from "@/models/BoardModel"
 
 @Component
 export default class TaskDetail extends Vue {
-  @Prop({ required: true }) currentTask: Task;
-  @Prop({ required: true }) dialog:boolean;
+  @Prop({ required: true }) currentTask!: Task;
+  @Prop({ required: true }) dialog!:boolean;
 
   constructor() {
     super();
-    this.dialog = false;
-    this.currentTask = { id: "", title: "", description: "", shortDescription: ""};
   }
 
   @Watch('dialog')
