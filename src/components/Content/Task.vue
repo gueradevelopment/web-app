@@ -19,7 +19,38 @@
                 {{ "El Guera" }}
             </i>
         </div>
+        <v-dialog
+            v-model="dialog"
+            width="500"
+        >
+            <v-card>
+                <v-card-title
+                    class="headline grey lighten-2"
+                    primary-title
+                >
+                {{ this.title }}
+                </v-card-title>
+                
+                <v-card-text>{{ this.description }}</v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="primary"
+                    flat
+                    @click="dialog = false"
+                >
+                    Ok
+                </v-btn>
+                
+                </v-card-actions>
+                </v-card>
+        </v-dialog>
     </div>
+    
+    
 </template>
 
 <script lang="ts">
@@ -44,12 +75,13 @@
     @Component
     export default class Task extends Vue {
 
-        private url = "https://5bae7dbc-83e4-4aa0-afd9-be942edabab5.mock.pstmn.io/tasks";
+        private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
 
         @Prop() private id!: string;
         @Prop() private title: string = "";
         @Prop() private shortDescription: string = "";
         @Prop() private description: string = "";
+        private dialog: boolean = false;
 
         constructor() {
             super();
@@ -75,6 +107,7 @@
 
         onClick(e: MouseEvent) {
             console.log("Clicked");
+            this.dialog = true;
         }
 
         onEdit(e: MouseEvent) {
