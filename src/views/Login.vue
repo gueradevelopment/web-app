@@ -23,7 +23,7 @@
         </v-layout>
       </v-card>
 
-      <v-card v-if="login==false" min-width="400" class="mt-5">
+      <v-card v-else-if="login==false" min-width="400" class="mt-5">
         <v-card-text>
           <v-form>
             <v-text-field prepend-icon="person" color="#545C59" name="name" label="Name" type="text"></v-text-field>
