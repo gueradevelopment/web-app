@@ -9,37 +9,15 @@
         {{descriptionText}}
       </h2>
 
-      <v-card v-if="login==true" min-width="400" class="mt-5">
-        <v-card-text>
-          <v-form>
-            <v-text-field prepend-icon="email" color="#545C59" name="email" label="Email" type="text"></v-text-field>
-            <v-text-field prepend-icon="lock" color="#545C59" name="password" label="Password" id="password" type="password"></v-text-field>
-          </v-form>
-        </v-card-text>
-        
+      <v-card min-width="400" class="mt-5">       
         <v-layout align-center justify-center column>
+          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Google</v-btn>
           <v-spacer></v-spacer>
-          <v-btn class="mb-3">Login</v-btn>
+          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Github</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Bitbucket</v-btn>
         </v-layout>
       </v-card>
-
-      <v-card v-else-if="login==false" min-width="400" class="mt-5">
-        <v-card-text>
-          <v-form>
-            <v-text-field prepend-icon="person" color="#545C59" name="name" label="Name" type="text"></v-text-field>
-            <v-text-field prepend-icon="email" color="#545C59" name="email" label="Email" type="text"></v-text-field>
-            <v-text-field prepend-icon="lock" color="#545C59" name="password" label="Password" id="password" type="password"></v-text-field>
-            <v-text-field prepend-icon="lock" color="#545C59" name="password" label="Repeat password" id="passwordRep" type="password"></v-text-field>
-          </v-form>
-        </v-card-text>
-        
-        <v-layout align-center justify-center column>
-          <v-spacer></v-spacer>
-          <v-btn class="mb-3">Sign up</v-btn>
-        </v-layout>
-      </v-card>
-
-      <span class="mt-5 pointer" @click="changeMethod">{{changeText}}</span>
 
     </v-layout>
   </v-container>
@@ -51,32 +29,23 @@ import { Component, Vue } from 'vue-property-decorator';
 @Component({})
 export default class Login extends Vue {
   descriptionText: string;
-  changeText: string;
   login: boolean;
 
   logContinue = "Log in to continue to Guera";
-  signContinue = "Sign up to continue to Guera";
-  logChange = "Sign up for an account";
-  signChange = "Log in to an account";
 
   constructor() {
     super();
     this.login = true;
     this.descriptionText = this.logContinue;
-    this.changeText = this.logChange;
   }
 
-  changeMethod() {
-    if(this.login) {
-      this.login = false;
-      this.descriptionText = this.signContinue;
-      this.changeText = this.signChange;
-    }
-    else {
-      this.login = true;
-      this.descriptionText = this.logContinue;
-      this.changeText = this.logChange;
-    }
+  loginGoogle() {
+    console.log("HELLO")
+    // fetch("http://localhost:3000/auth/google/login", {method: 'get',})
+    // .then(res => {
+    //   console.log(res)
+    // })
+    window.location.href = "http://localhost:3000/auth/google/login"
   }
 }
 </script>
