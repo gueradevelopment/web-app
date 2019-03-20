@@ -31,6 +31,18 @@ export default class Dashboard extends Vue {
     this.sidebarActive = false;
   }
 
+  mounted() {
+    fetch("http://localhost:3000/auth/validate", {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    }).then(res => {
+      if(res.status === 403) {
+        window.location.href = "http://localhost:8080/#/login"
+      }
+    })
+  }
+
   deactivate() {
     this.sidebarActive = false;
   }

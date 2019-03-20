@@ -31,7 +31,7 @@ export default class Login extends Vue {
   descriptionText: string;
   login: boolean;
 
-  logContinue = "Log in to continue to Guera";
+  logContinue = "Please, log in to continue to Guera";
 
   constructor() {
     super();
@@ -40,11 +40,6 @@ export default class Login extends Vue {
   }
 
   loginGoogle() {
-    console.log("HELLO")
-    // fetch("http://localhost:3000/auth/google/login", {method: 'get',})
-    // .then(res => {
-    //   console.log(res)
-    // })
     window.location.href = "http://localhost:3000/auth/google/login"
   }
 }
