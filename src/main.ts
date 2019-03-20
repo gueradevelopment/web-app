@@ -6,6 +6,9 @@ import store from './store'
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 Vue.use(Vuetify);
 
 

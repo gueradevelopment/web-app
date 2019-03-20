@@ -9,14 +9,27 @@
         {{descriptionText}}
       </h2>
 
-      <v-card min-width="400" class="mt-5">       
-        <v-layout align-center justify-center column>
-          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Google</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Github</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn @click="loginGoogle" class="mb-3 mt-3">Login with Bitbucket</v-btn>
-        </v-layout>
+      <v-card min-width="400" min-height="200" class="mt-5">   
+        <v-container fill-height>
+          <v-layout align-center justify-center row wrap >
+            <v-flex class="text-xs-center">
+              <v-btn @click="loginGoogle" class="mb-3 mt-3" outline color="indigo">
+                <img class="icon" src="@/assets/google.png">
+                Login with Google
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="loginGoogle" class="mb-3 mt-3" outline color="indigo">
+                <img class="icon" src="@/assets/github.svg">
+                Login with Github
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="loginGoogle" class="mb-3 mt-3" outline color="indigo">
+                <img class="icon" src="@/assets/bitbucket.png">
+                Login with Bitbucket
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-container>    
       </v-card>
 
     </v-layout>
@@ -31,20 +44,24 @@ export default class Login extends Vue {
   descriptionText: string;
   login: boolean;
 
-  logContinue = "Log in to continue to Guera";
+  logContinue = "Please, log in to continue to Guera";
 
   constructor() {
     super();
     this.login = true;
     this.descriptionText = this.logContinue;
+    console.log(process.env.VUE_APP_AUTH_HOST)
   }
 
   loginGoogle() {
-    console.log("HELLO")
-    // fetch("http://localhost:3000/auth/google/login", {method: 'get',})
-    // .then(res => {
-    //   console.log(res)
-    // })
+    window.location.href = "http://localhost:3000/auth/google/login"
+  }
+
+  loginGithub() {
+    window.location.href = "http://localhost:3000/auth/google/login"
+  }
+
+  loginBitbucket() {
     window.location.href = "http://localhost:3000/auth/google/login"
   }
 }
@@ -80,6 +97,11 @@ $bg-color: $l-green-pal;
 
 .pointer {
   cursor: pointer;
+}
+
+.icon {
+  height: 20px;
+  margin-right: 8px;
 }
 
 </style>
