@@ -120,7 +120,6 @@
         flex-flow: row;
         justify-content: flex-start;
         padding: 10px;
-        // border: 1px solid gray;
         background-color: rgba(77, 77, 77, 0.05);
         border-radius: 10px;
         width: $boardWidth;

@@ -13,7 +13,7 @@
         </v-card-title>
         <v-card-actions>
             <v-icon color="white">account_circle</v-icon>
-            <span>El Guera</span>
+            <span class="ml-1">El Guera</span>
         </v-card-actions>
         <TaskDetail v-on:closed-modal="closeModal" :currentTask="currentTask" :dialog="dialog"/>
     </v-card>

@@ -35,7 +35,7 @@
             //     }
             // });
             // const payload: BoardsGet = await response.json();
-            this.boards = [{"id": 0, "title": "House"}, {"id": 1, "title": "School"}, {"id": 2, "title": "Sport"}];
+            this.boards = [{"id": 0, "title": "House"}, {"id": 1, "title": "School"}];
         }
 
     }
