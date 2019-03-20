@@ -50,9 +50,18 @@ export default class Login extends Vue {
     super();
     this.login = true;
     this.descriptionText = this.logContinue;
+    console.log(process.env.VUE_APP_AUTH_HOST)
   }
 
   loginGoogle() {
+    window.location.href = "http://localhost:3000/auth/google/login"
+  }
+
+  loginGithub() {
+    window.location.href = "http://localhost:3000/auth/google/login"
+  }
+
+  loginBitbucket() {
     window.location.href = "http://localhost:3000/auth/google/login"
   }
 }
