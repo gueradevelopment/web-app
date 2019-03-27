@@ -16,7 +16,7 @@
               <v-flex 6 class="pa-2" :class="{'editable': !editingTitle, 'editing': editingTitle}">
                 <span v-if="!editingTitle" @click="editingTitle = true" class="display-2">{{ currentTask.title }}</span>
                 <div v-else>
-                  <input type="text" @focusout="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
+                  <input id="title-input" type="text" @focusout="cancelEdit('title')" @keyup.esc="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
                 </div>
               </v-flex>
             </v-layout>
@@ -36,7 +36,7 @@
                   {{ currentTask.description }}
                 </div>
                 <div v-else>
-                  <textarea class="pa-2" @focusout="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
+                  <textarea id="description-input" class="pa-2" @focusout="cancelEdit('description')" @keyup.esc="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
                 </div>
               </v-flex>
               
@@ -71,6 +71,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator"
 import { Task } from "@/models/BoardModel"
+import $ from "jquery";
 
 @Component
 export default class TaskDetail extends Vue {
@@ -106,6 +107,20 @@ export default class TaskDetail extends Vue {
     if(!val) {
       this.closeModal();
     }
+  }
+
+  @Watch('editingTitle')
+  onEditingTitleChanged(val: boolean, oldVal: boolean) { 
+    if (val) {
+      console.log($("#title-input"));
+      $("#title-input").trigger('focus');
+    }
+  }
+  
+  @Watch('editingDescription')
+  onEditingDescriptionChanged(val: boolean, oldVal: boolean) { 
+    if (val)
+      $("#description-input").focus();
   }
 
   @Emit("closed-modal")
