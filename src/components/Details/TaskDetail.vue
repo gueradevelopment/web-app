@@ -13,7 +13,7 @@
               <span class="subheading px-5 mt-3 font-italic">Board</span>
             </v-layout>
             <v-layout row class="px-5">
-              <v-flex 6 :class="{'editable': !editingTitle, 'editing': editingTitle}">
+              <v-flex 6 class="pa-2" :class="{'editable': !editingTitle, 'editing': editingTitle}">
                 <span v-if="!editingTitle" @click="editingTitle = true" class="display-2">{{ currentTask.title }}</span>
                 <div v-else>
                   <input type="text" @focusout="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
@@ -36,7 +36,7 @@
                   {{ currentTask.description }}
                 </div>
                 <div v-else>
-                  <textarea @focusout="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
+                  <textarea class="pa-2" @focusout="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
                 </div>
               </v-flex>
               
@@ -134,14 +134,14 @@ export default class TaskDetail extends Vue {
     border-radius: 5px;
   }
   input {
-    width: 272px;
+    width: 265px;
   }
   input:focus {outline:0;}
   textarea {
     background-color: rgba(202, 202, 202, 0.274);
     border-radius: 5px;
     resize: none;
-    width: 272px;
+    width: 265px;
   }
   textarea:focus {outline:0;}
 </style>
