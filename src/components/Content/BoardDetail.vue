@@ -13,7 +13,7 @@
                         <h2 class="mx-0 pa-2">To-Do</h2>
                         <div class="column-container mx-0 px-2 py-4">
                             <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
-                                <Task :id="task.id"/>
+                                <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
                     </v-layout>
@@ -23,7 +23,7 @@
                         <h2 class="mx-0 pa-2">Doing</h2>
                         <div class="column-container mx-0 px-2 py-4">
                             <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
-                                <Task :id="task.id"/>
+                                <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
                     </v-layout>
@@ -33,7 +33,7 @@
                         <h2 class="mx-0 pa-2">Done</h2>
                         <div class="column-container mx-0 px-2 py-4">
                             <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
-                                <Task :id="task.id"/>
+                                <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
                     </v-layout>
@@ -44,28 +44,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Task from "@/components/Content/Task.vue";
+    import { Component, Prop, Vue } from "vue-property-decorator";
+    import Task from "@/components/Content/Task.vue";
+    import Data from "@/data";
 
-@Component({
-    components: {
-        Task
+    @Component({
+        components: {
+            Task
+        }
+    })
+
+    export default class BoardDetail extends Vue {
+        @Prop() private id!: string;
+        private boardId!: number;
+        private title: string = "Board Title"
+        private tasks: object[] = [];
+
+        created() {
+            this.boardId = parseInt(this.id);
+            const board = Data.boards.find(val => val.id === this.boardId)!;
+            this.tasks = board.tasks
+            this.title = board.title
+            console.log()
+        }
+
+        newTask() {
+            console.log(`New task from board ${this.id}`);
+        }
     }
-})
-
-export default class BoardDetail extends Vue {
-    @Prop() private id!:string
-    private title: string = "Board Title"
-    private tasks: object[] = [{"id": 0, "title":"Clean my room"}, {"id": 1, "title":"Clean another room"}]
-
-    created() {
-        console.log(this.id)
-    }
-
-    newTask() {
-        console.log(`New task from board ${this.id}`);
-    }
-}
 </script>
 
 <style lang="scss" scoped>

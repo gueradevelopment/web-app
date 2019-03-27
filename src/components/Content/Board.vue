@@ -5,7 +5,7 @@
         </div>
         <v-layout row align-center class="rounded-border">
             <v-flex xs3 v-for="task in tasks" :key="task.id">
-                <Task :id="task.id"/>
+                <Task :id="task.id" :board-id="id"/>
             </v-flex>
             <v-flex xs2 class="text-xs-center">
                 <v-btn @click="newTask" outline fab large color="#A7E2D2" >
@@ -20,6 +20,7 @@
 
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Task from "./Task.vue";
+    import Data from "@/data";
 
 
     interface TasksGet {
@@ -43,7 +44,7 @@
     })
     export default class Board extends Vue {
 
-        @Prop() private id!: string;
+        @Prop() private id!: number;
         @Prop() private title!: string;
 
         // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/boards";
@@ -54,6 +55,7 @@
         }
 
         async created() {
+            this.tasks = Data.boards.find((val) => val.id == this.id)!.tasks
             // const response = await fetch(`${this.url}/${this.id}`, {
             //     method: "GET",
             //     headers: {
@@ -61,18 +63,18 @@
             //     }
             // });
             // const payload = await response.json();
-            const payload = {
-                "id": "0",
-                "title": "MyBoard",
-                "tasks": [{"id": 0, "title":"Clean my room"}, {"id": 1, "title":"Clean another room"}]
-            }
-            if (isTasksGet(payload)) {
-                // this.title = payload.title;
-                this.tasks = payload.tasks;
-            } else {
-                console.error(payload);
-                throw new Error("Unexpected payload for Tasks");
-            }
+            // const payload = {
+            //     "id": "0",
+            //     "title": "MyBoard",
+            //     "tasks": [{"id": 0, "title":"Clean my room"}, {"id": 1, "title":"Clean another room"}]
+            // }
+            // if (isTasksGet(payload)) {
+            //     // this.title = payload.title;
+            //     this.tasks = payload.tasks;
+            // } else {
+            //     console.error(payload);
+            //     throw new Error("Unexpected payload for Tasks");
+            // }
         }
 
         horizontalScroll(e: any) {

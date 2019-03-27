@@ -2,16 +2,13 @@
     <v-card 
       @click="onClick"
       color="#A7E2D2" 
-      class="rounded-card white--text mx-2 my-1" 
+      class="rounded-card white--text mx-2 my-1 pa-1" 
       flat
       >
         <v-card-title primary-title>
-            <div>
-                <div class="headline">{{currentTask.title}}</div>
-                <span>{{currentTask.description}}</span>
-            </div>
+            <div class="headline">{{currentTask.title}}</div>
         </v-card-title>
-        <v-card-actions>
+        <v-card-actions class="pl-3">
             <v-icon color="white">account_circle</v-icon>
             <span class="ml-1">El Guera</span>
         </v-card-actions>
@@ -24,10 +21,11 @@
     import { Component, Prop, Vue } from "vue-property-decorator"
     import TaskDetail from "@/components/Details/TaskDetail.vue"
     import { Task as TaskInterface } from "@/models/BoardModel"
+    import Data from "@/data";
 
     function isTaskGet(object: any): object is TaskInterface {
         return (
-            typeof object.id === "string" &&
+            typeof object.id === "number" &&
             typeof object.title === "string" &&
             typeof object.shortDescription === "string"
         );
@@ -39,13 +37,14 @@
         }
     })
     export default class Task extends Vue {
-        @Prop() private id!: string;
+        @Prop() private boardId!: number;
+        @Prop() private id!: number;
         @Prop() private title!: string;
         @Prop() private shortDescription!: string;
         @Prop() private description!: string;
         // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
         private dialog: boolean = false;
-        currentTask: TaskInterface = { id: "", title: "", description: "", shortDescription: ""};
+        currentTask: TaskInterface = { id: 0, title: "", description: "", shortDescription: ""};
 
         constructor() {
             super();
@@ -59,17 +58,18 @@
             //     }
             // });
             // const payload = await response.json();
-            const payload = {"id": "0", "title": "Dishes", "description": "Get some nice soap to clean", "shortDescription": "Just do it man"};
-            
-            if (isTaskGet(payload)) {
-                this.currentTask.id = payload.id != undefined ? payload.id : "";
+            const payload = Data.boards.find(val => val.id === this.boardId)!.tasks.find(val => val.id === this.id)!
+
+            this.currentTask.id = payload.id != undefined ? payload.id : 0;
                 this.currentTask.title = payload.title != undefined ? payload.title : "";
                 this.currentTask.description = payload.description != undefined ? payload.description : "";
                 this.currentTask.shortDescription = payload.shortDescription != undefined ? payload.shortDescription : "";
-            } else {
-                console.error(payload);
-                throw new Error("Unexpected payload for Task");
-            }
+            // if (isTaskGet(payload)) {
+                
+            // } else {
+            //     console.error(payload);
+            //     throw new Error("Unexpected payload for Task");
+            // }
         }
 
         onClick(e: MouseEvent) {
@@ -100,6 +100,9 @@
 
     .rounded-card{
         border-radius:10px;
+        width: 200px;
+        height: 150px;
+        overflow: hidden;
     }
 
     .title > span {

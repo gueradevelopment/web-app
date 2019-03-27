@@ -13,7 +13,12 @@
               <span class="subheading px-5 mt-3 font-italic">Board</span>
             </v-layout>
             <v-layout row class="px-5">
-              <span class="display-2">{{ currentTask.title }}</span>
+              <v-flex 6 :class="{'editable': !editingTitle, 'editing': editingTitle}">
+                <span v-if="!editingTitle" @click="editingTitle = true" class="display-2">{{ currentTask.title }}</span>
+                <div v-else>
+                  <input type="text" @focusout="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
+                </div>
+              </v-flex>
             </v-layout>
           </v-layout>
         
@@ -25,8 +30,16 @@
               <v-icon large color="black">account_circle</v-icon>
               <span class="ml-2 headline font-weight-light">El Guera</span>
             </v-layout>
-            <v-layout row class="mt-4 subheading">
-              {{ currentTask.description }}
+            <v-layout row class="mt-4 subheading editable">
+              <v-flex 12 :class="{'editable': !editingDescription, 'editing': editingDescription}">
+                <div v-if="!editingDescription" @click="editingDescription = true">
+                  {{ currentTask.description }}
+                </div>
+                <div v-else>
+                  <textarea @focusout="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
+                </div>
+              </v-flex>
+              
             </v-layout>
             <v-layout row class="mt-5">
               <v-select
@@ -64,9 +77,28 @@ export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
   @Prop({ required: true }) dialog!:boolean;
   private status: string[] = ["To-Do", "Doing", "Done"];
+  private editingTitle: boolean = false;
+  private editingDescription: boolean = false;
 
   constructor() {
     super();
+  }
+
+  cancelEdit(section: string) {
+    switch(section) {
+      case "title":
+        this.currentTask.title = (this.currentTask.title.length > 0)? 
+                            this.currentTask.title :
+                            "Title"
+        this.editingTitle = false;
+        break;
+      case "description":
+        this.currentTask.description = (this.currentTask.description != null && this.currentTask.description!.length > 0)?
+                            this.currentTask.description :
+                            "Description"
+        this.editingDescription = false;
+        break;
+    }
   }
 
   @Watch('dialog')
@@ -93,4 +125,23 @@ export default class TaskDetail extends Vue {
   .task-detail {
     background-color: rgba(77, 77, 77, 0.05);
   }
+  .editable:hover {
+    background-color: rgba(175, 175, 175, 0.521);
+    border-radius: 5px;
+  }
+  .editing {
+    background-color: rgba(175, 175, 175, 0.521);
+    border-radius: 5px;
+  }
+  input {
+    width: 272px;
+  }
+  input:focus {outline:0;}
+  textarea {
+    background-color: rgba(202, 202, 202, 0.274);
+    border-radius: 5px;
+    resize: none;
+    width: 272px;
+  }
+  textarea:focus {outline:0;}
 </style>

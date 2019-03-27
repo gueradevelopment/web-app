@@ -10,6 +10,7 @@
 
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Board from "@/components/Content/Board.vue";
+    import Data from "../../data";
 
     interface BoardsGet {
         boards: string[];
@@ -35,7 +36,7 @@
             //     }
             // });
             // const payload: BoardsGet = await response.json();
-            this.boards = [{"id": 0, "title": "House"}, {"id": 1, "title": "School"}];
+            this.boards = Data.boards;
         }
 
     }
