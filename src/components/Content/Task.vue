@@ -4,10 +4,10 @@
             <img src="@/assets/edit.svg"/>
         </div>
         <div class="title">
-            <span>{{ title }}</span>
+            <span>{{ currentTask.title }}</span>
         </div>
         <div class="desc">
-            <span>{{ description }}</span>
+            <span>{{ currentTask.description }}</span>
         </div>
         <div class="icons">
             <i class="remainingTasks">
@@ -19,21 +19,19 @@
                 {{ "El Guera" }}
             </i>
         </div>
+        <TaskDetail v-on:closed-modal="closeModal" :currentTask="currentTask" :dialog="dialog"/>
     </div>
+    
+
 </template>
 
 <script lang="ts">
 
     import { Component, Prop, Vue } from "vue-property-decorator"
+    import TaskDetail from "@/components/Details/TaskDetail.vue"
+    import { Task as TaskInterface } from "@/models/BoardModel"
 
-    interface TaskGet {
-        id: string;
-        title: string;
-        description?: string;
-        shortDescription: string;
-    }
-
-    function isTaskGet(object: any): object is TaskGet {
+    function isTaskGet(object: any): object is TaskInterface {
         return (
             typeof object.id === "string" &&
             typeof object.title === "string" &&
@@ -41,15 +39,19 @@
         );
     }
 
-    @Component
+    @Component({
+        components: {
+            TaskDetail
+        }
+    })
     export default class Task extends Vue {
-
-        private url = "https://5bae7dbc-83e4-4aa0-afd9-be942edabab5.mock.pstmn.io/tasks";
-
         @Prop() private id!: string;
-        @Prop() private title: string = "";
-        @Prop() private shortDescription: string = "";
-        @Prop() private description: string = "";
+        @Prop() private title!: string;
+        @Prop() private shortDescription!: string;
+        @Prop() private description!: string;
+        private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
+        private dialog: boolean = false;
+        currentTask: TaskInterface = { id: "", title: "", description: "", shortDescription: ""};
 
         constructor() {
             super();
@@ -63,22 +65,29 @@
                 }
             });
             const payload = await response.json();
+
             if (isTaskGet(payload)) {
-                this.title = payload.title;
-                this.description = payload.description != undefined ? payload.description : "";
-                this.shortDescription = payload.shortDescription;
+                this.currentTask.id = payload.id != undefined ? payload.id : "";
+                this.currentTask.title = payload.title != undefined ? payload.title : "";
+                this.currentTask.description = payload.description != undefined ? payload.description : "";
+                this.currentTask.shortDescription = payload.shortDescription != undefined ? payload.shortDescription : "";
             } else {
                 console.error(payload);
                 throw new Error("Unexpected payload for Task");
             }
         }
 
+
         onClick(e: MouseEvent) {
-            console.log("Clicked");
+            this.dialog = true;
         }
 
         onEdit(e: MouseEvent) {
             alert("Edit time");
+        }
+
+        closeModal() {
+            this.dialog = false;
         }
     }
 
