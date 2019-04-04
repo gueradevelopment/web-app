@@ -16,7 +16,7 @@
               <v-flex 6 class="pa-2" :class="{'editable': !editingTitle, 'editing': editingTitle}">
                 <span v-if="!editingTitle" @click="editingTitle = true" class="display-2">{{ currentTask.title }}</span>
                 <div v-else>
-                  <input id="title-input" type="text" @focusout="cancelEdit('title')" @keyup.esc="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
+                  <input ref="titleInput" type="text" @focusout="cancelEdit('title')" @keyup.esc="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
                 </div>
               </v-flex>
             </v-layout>
@@ -36,7 +36,7 @@
                   {{ currentTask.description }}
                 </div>
                 <div v-else>
-                  <textarea id="description-input" class="pa-2" @focusout="cancelEdit('description')" @keyup.esc="cancelEdit('description')" v-model="currentTask.description" rows="5"></textarea>
+                  <textarea @load="triggerDescriptionFocus()" id="description-input" class="pa-2" @focusout="cancelEdit('description')" @keyup.esc="cancelEdit('description')" v-model="currentTask.description" rows="5" placeholder="Description"></textarea>
                 </div>
               </v-flex>
               
@@ -112,15 +112,24 @@ export default class TaskDetail extends Vue {
   @Watch('editingTitle')
   onEditingTitleChanged(val: boolean, oldVal: boolean) { 
     if (val) {
-      console.log($("#title-input"));
-      $("#title-input").trigger('focus');
+      this.triggerTitleFocus();
     }
+  }
+
+  triggerTitleFocus() {
+    $("#title-input").focus();
+    console.log(this.$refs.titleInput);
+    // this.$refs.titleInput.focus();
   }
   
   @Watch('editingDescription')
   onEditingDescriptionChanged(val: boolean, oldVal: boolean) { 
     if (val)
-      $("#description-input").focus();
+      this.triggerDescriptionFocus();
+  }
+
+  triggerDescriptionFocus() {
+    $("#description-input").focus();
   }
 
   @Emit("closed-modal")
@@ -149,14 +158,14 @@ export default class TaskDetail extends Vue {
     border-radius: 5px;
   }
   input {
-    width: 265px;
+    width: 256px;
   }
   input:focus {outline:0;}
   textarea {
     background-color: rgba(202, 202, 202, 0.274);
     border-radius: 5px;
     resize: none;
-    width: 265px;
+    width: 260px;
   }
   textarea:focus {outline:0;}
 </style>
