@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Board from "@/components/Content/Board.vue";
+import BoardDetail from "@/components/Content/BoardDetail.vue";
 import Login from '@/views/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
 
@@ -19,9 +20,9 @@ export default new Router({
           component: Home
         },
         {
-          path: "/book",
-          name: "book",
-          component: Board
+          path: '/board/:id',
+          component: BoardDetail,
+          props: true
         },
         {
           path: '/about',

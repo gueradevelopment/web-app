@@ -1,28 +1,19 @@
 <template>
-    <div class="task" @click="onClick">
-        <div class="edit" @click="onEdit">
-            <img src="@/assets/edit.svg"/>
-        </div>
-        <div class="title">
-            <span>{{ currentTask.title }}</span>
-        </div>
-        <div class="desc">
-            <span>{{ currentTask.description }}</span>
-        </div>
-        <div class="icons">
-            <i class="remainingTasks">
-                <img src="@/assets/task.svg"/>
-                {{ 3 }}
-            </i>
-            <i class="assignedUser">
-                <img src="@/assets/user.svg"/>
-                {{ "El Guera" }}
-            </i>
-        </div>
+    <v-card 
+      @click="onClick"
+      color="#A7E2D2" 
+      class="rounded-card white--text mx-2 my-1 pa-1" 
+      flat
+      >
+        <v-card-title primary-title>
+            <div class="headline">{{currentTask.title}}</div>
+        </v-card-title>
+        <v-card-actions class="pl-3">
+            <v-icon color="white">account_circle</v-icon>
+            <span class="ml-1">El Guera</span>
+        </v-card-actions>
         <TaskDetail v-on:closed-modal="closeModal" :currentTask="currentTask" :dialog="dialog"/>
-    </div>
-    
-    
+    </v-card>
 </template>
 
 <script lang="ts">
@@ -30,10 +21,11 @@
     import { Component, Prop, Vue } from "vue-property-decorator"
     import TaskDetail from "@/components/Details/TaskDetail.vue"
     import { Task as TaskInterface } from "@/models/BoardModel"
+    import Data from "@/data";
 
     function isTaskGet(object: any): object is TaskInterface {
         return (
-            typeof object.id === "string" &&
+            typeof object.id === "number" &&
             typeof object.title === "string" &&
             typeof object.shortDescription === "string"
         );
@@ -45,40 +37,43 @@
         }
     })
     export default class Task extends Vue {
-        @Prop() private id!: string;
+        @Prop() private boardId!: number;
+        @Prop() private id!: number;
         @Prop() private title!: string;
         @Prop() private shortDescription!: string;
         @Prop() private description!: string;
-        private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
+        // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
         private dialog: boolean = false;
-        currentTask: TaskInterface = { id: "", title: "", description: "", shortDescription: ""};
+        currentTask: TaskInterface = { id: 0, title: "", description: "", shortDescription: ""};
 
         constructor() {
             super();
         }
 
         async created() {
-            const response = await fetch(`${this.url}/${this.id}`, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-            const payload = await response.json();
-            
-            if (isTaskGet(payload)) {
-                this.currentTask.id = payload.id != undefined ? payload.id : "";
+            // const response = await fetch(`${this.url}/${this.id}`, {
+            //     method: "GET",
+            //     headers: {
+            //         "Accept": "application/json"
+            //     }
+            // });
+            // const payload = await response.json();
+            const payload = Data.boards.find(val => val.id === this.boardId)!.tasks.find(val => val.id === this.id)!
+
+            this.currentTask.id = payload.id != undefined ? payload.id : 0;
                 this.currentTask.title = payload.title != undefined ? payload.title : "";
                 this.currentTask.description = payload.description != undefined ? payload.description : "";
                 this.currentTask.shortDescription = payload.shortDescription != undefined ? payload.shortDescription : "";
-            } else {
-                console.error(payload);
-                throw new Error("Unexpected payload for Task");
-            }
+            // if (isTaskGet(payload)) {
+                
+            // } else {
+            //     console.error(payload);
+            //     throw new Error("Unexpected payload for Task");
+            // }
         }
 
         onClick(e: MouseEvent) {
-            this.dialog = true;           
+            this.dialog = true;         
         }
 
         onEdit(e: MouseEvent) {
@@ -103,24 +98,11 @@
     $transparent: rgba(0, 0, 0, 0.0);
     $white: rgba(0, 0, 0, 0.2);
 
-    .task {
-        display: flex;
-        flex-flow: column;
-        margin: 0 20px;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 5px;
-        background-image: linear-gradient(to bottom, $mint, $transparent);
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-        user-select: none;
-        height: 75%;
-        width: 10vw;
-        min-width: 80px;
-    }
-
-    .task:hover {
-        cursor: pointer;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.40);
+    .rounded-card{
+        border-radius:10px;
+        width: 200px;
+        height: 150px;
+        overflow: hidden;
     }
 
     .title > span {
@@ -130,24 +112,5 @@
     }
 
     $textHeight: 1.0em;
-
-    .desc  {
-        width: 100%;
-        font-size: $textHeight;
-        height: 6 * $textHeight;
-        overflow: hidden;
-    }
-
-    .icons {
-        justify-self: flex-end;
-        display: flex;
-        flex-flow: row;
-        justify-content: space-around;
-    }
-
-    .icons img {
-        height: 12px;
-        width: 12px;
-    }
 
 </style>

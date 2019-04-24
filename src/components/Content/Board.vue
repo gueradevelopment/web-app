@@ -1,17 +1,18 @@
 <template>
     <div class="board">
         <div id="title">
-            <span>{{ title }}</span>
+            <router-link :to="`/board/${id}`"><span>{{ title }}</span></router-link>
         </div>
-        <ul id="boardList"
-            ref="boardList"
-            v-on:DOMMouseScroll="horizontalScroll"
-            v-on:mousewheel="horizontalScroll"
-        >
-            <li v-for="task in tasks">
-                <Task v-bind:id.sync="task"/>
-            </li>
-        </ul>
+        <v-layout row align-center class="rounded-border">
+            <v-flex xs3 v-for="task in tasks" :key="task.id">
+                <Task :id="task.id" :board-id="id"/>
+            </v-flex>
+            <v-flex xs2 class="text-xs-center">
+                <v-btn @click="newTask" outline fab large color="#A7E2D2" >
+                    <v-icon color="#A7E2D2">add</v-icon>
+                </v-btn>
+            </v-flex>
+        </v-layout>
     </div>
 </template>
 
@@ -19,12 +20,13 @@
 
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Task from "./Task.vue";
+    import Data from "@/data";
 
 
     interface TasksGet {
         id: string;
         title: string;
-        tasks: string[];
+        tasks: object[];
     }
 
     function isTasksGet(object: any): object is TasksGet {
@@ -42,31 +44,37 @@
     })
     export default class Board extends Vue {
 
-        @Prop() private id!: string;
+        @Prop() private id!: number;
         @Prop() private title!: string;
 
-        private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/boards";
-        private tasks: string[] = [];
+        // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/boards";
+        private tasks: object[] = [];
 
         constructor() {
             super();
         }
 
         async created() {
-            const response = await fetch(`${this.url}/${this.id}`, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-            const payload = await response.json();
-            if (isTasksGet(payload)) {
-                this.title = payload.title;
-                this.tasks = payload.tasks;
-            } else {
-                console.error(payload);
-                throw new Error("Unexpected payload for Tasks");
-            }
+            this.tasks = Data.boards.find((val) => val.id == this.id)!.tasks
+            // const response = await fetch(`${this.url}/${this.id}`, {
+            //     method: "GET",
+            //     headers: {
+            //         "Accept": "application/json"
+            //     }
+            // });
+            // const payload = await response.json();
+            // const payload = {
+            //     "id": "0",
+            //     "title": "MyBoard",
+            //     "tasks": [{"id": 0, "title":"Clean my room"}, {"id": 1, "title":"Clean another room"}]
+            // }
+            // if (isTasksGet(payload)) {
+            //     // this.title = payload.title;
+            //     this.tasks = payload.tasks;
+            // } else {
+            //     console.error(payload);
+            //     throw new Error("Unexpected payload for Tasks");
+            // }
         }
 
         horizontalScroll(e: any) {
@@ -76,13 +84,22 @@
             board.scrollLeft -= (delta * 25); // Multiplied by 40
             e.preventDefault();
         }
+
+        newTask() {
+            console.log(`New task from board ${this.id}`);
+        }
     }
 
-</script>any
+</script>
 
 <style scoped lang="scss">
-
+    
     $boardWidth: 85vw;
+    
+    a {
+        color: #4D4D4D;
+        text-decoration: none;
+    }
 
     .board {
         display: flex;
@@ -100,12 +117,12 @@
         justify-content: flex-start;
     }
 
-    .board ul {
+    .rounded-border {
         display: flex;
         flex-flow: row;
         justify-content: flex-start;
         padding: 10px;
-        border: 1px solid gray;
+        background-color: rgba(77, 77, 77, 0.05);
         border-radius: 10px;
         width: $boardWidth;
         height: 200px;
@@ -114,6 +131,15 @@
 
     li {
         list-style: none;
+    }
+
+    .rounded-card{
+        border-radius:10px;
+    }
+
+    .new-task{
+        border-style: dotted;
+        border: 10px dotted;
     }
 
 </style>
