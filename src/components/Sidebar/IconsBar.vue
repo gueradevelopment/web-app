@@ -26,6 +26,7 @@
 
         <div @mouseover="hoverProfile=true"
             @mouseleave="hoverProfile=false"
+            @click="showDropdownChanged(true)"
             :class="{ hovering_border: hoverProfile }"
             class="circle-container centered"
             id="profile-container">        
@@ -34,16 +35,29 @@
                 src="@/assets/profile_test.jpg" alt="Avatar">
         </div>
 
+        <div id='dropdown-menu'>
+            <v-card 
+                v-if="showDropdownMenuOptions"
+                color="white" 
+                class="rounded-card" 
+                flat>
+                <div @click="logout" class="option">
+                    Log out
+                </div>
+            </v-card>
+        </div>
+
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component';
-import { Emit } from 'vue-property-decorator';
+import { Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class IconsBar extends Vue {
+    @Prop({ required: true, default: false }) showDropdownMenuOptions!:boolean;
     hoverProfile: boolean;
     hoverSearch: boolean;
     hoverLogo: boolean;
@@ -53,6 +67,20 @@ export default class IconsBar extends Vue {
         this.hoverSearch = false;
         this.hoverProfile = false;
         this.hoverLogo = false;
+    }
+
+    logout() {
+        fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/logout`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        }).then(res => {
+            window.location.href = "http://localhost:8080/#/login"
+        })
+    }
+
+    showDropdownChanged(e:boolean) {
+        this.$emit("show-dropdown", e);
     }
 
     @Emit("search-clicked")
@@ -117,6 +145,31 @@ $bg-color: $l-green-pal;
     margin-left: -25%;
     height: 100%;
     width: auto;
+}
+
+#dropdown-menu {
+    position:absolute;
+    bottom: 30px;
+    left: 55px;
+    z-index: 3;
+}
+
+.option {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    flex: 0 0 auto;
+    width: 100px;
+    height: 50px;
+    padding: 20px;
+    border-radius: 3px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.31) 0px 0px 1px;
+}
+
+.option:hover {
+    background-color: rgb(244, 245, 247);
+    color: rgb(23, 43, 77);
+    fill: rgb(244, 245, 247);
 }
 
 .circle-container {

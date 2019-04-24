@@ -65,7 +65,6 @@
             const board = Data.boards.find(val => val.id === this.boardId)!;
             this.tasks = board.tasks
             this.title = board.title
-            console.log()
         }
 
         newTask() {

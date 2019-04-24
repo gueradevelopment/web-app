@@ -1,10 +1,13 @@
 <template>
     <div id="menu-container" :class="{ sidebarActive }" >
         <div @click="activate">
-            <IconsBar v-on:search-clicked="searchClicked"/>
+            <IconsBar 
+                @search-clicked="searchClicked"
+                @show-dropdown="showDropdownChanged"
+                :showDropdownMenuOptions.sync="showDropdownMenuOptions"/>
         </div>
         
-        <div id="menubar-container" :class="{ sidebarActive }">
+        <div @click="showDropdownChanged(false)" id="menubar-container" :class="{ sidebarActive }">
             <MenuBar/>
         </div>            
 
@@ -30,7 +33,9 @@ import SearchModal from '@/components/Sidebar/SearchModal.vue'
     }
 })
 export default class Sidebar extends Vue {
-    @Prop({ required: true, type: Boolean, default: false }) sidebarActive!:Boolean;
+    @Prop({ required: true, default: false }) sidebarActive!:boolean;
+    @Prop({ required: true, default: false }) showDropdownMenuOptions!:boolean;
+    
     showSearch: boolean;
 
     constructor() {
@@ -40,6 +45,10 @@ export default class Sidebar extends Vue {
 
     activate() {
         this.$emit("update:sidebarActive", true);
+    }
+
+    showDropdownChanged(e:boolean) {
+        this.$emit("show-dropdown", e);
     }
 
     searchClicked() {

@@ -34,7 +34,7 @@ export default class SearchIcons extends Vue {
     @Emit("close")
         close(){};
 
-    hoverBack:Boolean;
+    hoverBack:boolean;
 
     constructor() {
         super();

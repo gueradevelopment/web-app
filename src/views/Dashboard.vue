@@ -1,6 +1,10 @@
 <template>
   <div>
-    <Sidebar :sidebarActive.sync="sidebarActive" ref="Sidebar"/>
+    <Sidebar 
+      :sidebarActive.sync="sidebarActive" 
+      :showDropdownMenuOptions.sync="showDropdownMenuOptions" 
+      @show-dropdown="showDropdownChanged"
+      ref="Sidebar"/>
 
     <div id="content" @click="deactivate" :class="{ sidebarActive }">
       <div id="nav">
@@ -24,27 +28,34 @@ import Sidebar from '@/components/Sidebar/Sidebar.vue';
   },
 })
 export default class Dashboard extends Vue {
-  sidebarActive: Boolean;
+  sidebarActive: boolean;
+  showDropdownMenuOptions: boolean;
 
   constructor() {
     super();
     this.sidebarActive = false;
+    this.showDropdownMenuOptions = false;
   }
 
   mounted() {
-    fetch("http://localhost:3000/auth/validate", {
+    fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/validate`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
     }).then(res => {
-      if(res.status === 403) {
+      if(!res.status || res.status !== 200) {
         window.location.href = "http://localhost:8080/#/login"
       }
     })
   }
 
+  showDropdownChanged(e:boolean) {
+    this.showDropdownMenuOptions = e;
+  }
+
   deactivate() {
     this.sidebarActive = false;
+    this.showDropdownMenuOptions = false;
   }
 }
 </script>

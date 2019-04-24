@@ -23,9 +23,9 @@ import SearchContent from '@/components/Sidebar/SearchContent.vue'
     }
 })
 export default class SearchModal extends Vue {
-    @Prop({ required: true, type: Boolean, default: false }) open!:Boolean;
+    @Prop({ required: true, default: false }) open!:boolean;
 
-    hoverBack:Boolean;
+    hoverBack:boolean;
 
     constructor() {
         super();
