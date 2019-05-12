@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <router-view/>
+    <router-view />
   </v-app>
 </template>
 
@@ -10,17 +10,15 @@ import Dashboard from '@/views/Dashboard.vue';
 
 @Component({})
 export default class App extends Vue {
-
   constructor() {
     super();
   }
-
 }
 </script>
 
 <style lang="scss">
 @font-face {
-    font-family: 'Sky Sans';
-    src: url('/assets/SkySans.ttf') format('truetype');
+  font-family: 'Sky Sans';
+  src: url('/assets/SkySans.ttf') format('truetype');
 }
 </style>

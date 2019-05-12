@@ -1,13 +1,13 @@
-
 interface BoardModel {
-    id: string;
-    title: string;
-    description: string;
+  id: string;
+  title: string;
+  description: string;
 }
 
 export interface Task {
-    id: number;
-    title: string;
-    description?: string;
-    shortDescription: string;
+  id: number;
+  title: string;
+  description?: string;
+  shortDescription: string;
+  boardId: number;
 }
