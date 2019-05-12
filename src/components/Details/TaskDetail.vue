@@ -17,9 +17,8 @@
                   v-if="!editingTitle"
                   @click="editingTitle = true"
                   class="display-2"
+                  >{{ editingTitleText }}</span
                 >
-                  {{ currentTask.title }}
-                </span>
                 <div v-else>
                   <input
                     ref="titleInput"
@@ -27,7 +26,7 @@
                     @focusout="cancelEdit('title')"
                     @keyup.esc="cancelEdit('title')"
                     class="display-2"
-                    v-model="editingTitleText"
+                    v-model="currentTask.title"
                     placeholder="Title"
                   />
                 </div>
@@ -58,15 +57,15 @@
                 </div>
                 <div v-else>
                   <textarea
+                    @load="triggerDescriptionFocus()"
                     id="description-input"
                     class="pa-2"
-                    @load="triggerDescriptionFocus()"
                     @focusout="cancelEdit('description')"
                     @keyup.esc="cancelEdit('description')"
                     v-model="editingTitleText"
                     rows="5"
                     placeholder="Description"
-                  />
+                  ></textarea>
                 </div>
               </v-flex>
             </v-layout>

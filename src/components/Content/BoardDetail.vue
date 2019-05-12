@@ -2,7 +2,7 @@
   <v-container fill-height class="board pa-0 ma-0">
     <v-layout column>
       <v-layout align-start justify-space-between row>
-        <h1>{{ board.title }}</h1>
+        <h1>{{ title }}</h1>
         <v-btn @click="newTask" large flat icon color="#4D4D4D">
           <v-icon medium color="#4D4D4D">add</v-icon>
         </v-btn>
@@ -16,7 +16,7 @@
                 row
                 align-start
                 justify-center
-                v-for="task in tasks"
+                v-for="task in toDoTasks"
                 :key="task.id"
               >
                 <Task :id="task.id" :board-id="boardId" />
@@ -32,7 +32,7 @@
                 row
                 align-start
                 justify-center
-                v-for="task in tasks"
+                v-for="task in doingTasks"
                 :key="task.id"
               >
                 <Task :id="task.id" :board-id="boardId" />
@@ -48,7 +48,7 @@
                 row
                 align-start
                 justify-center
-                v-for="task in tasks"
+                v-for="task in doneTasks"
                 :key="task.id"
               >
                 <Task :id="task.id" :board-id="boardId" />
@@ -81,15 +81,20 @@ import Data from '@/data';
 })
 export default class BoardDetail extends Vue {
   @Prop() private id!: string;
-  private boardId!: number;
-  private title: string = 'Board Title';
 
   private createDialog: boolean = false;
 
   created() {
-    this.boardId = parseInt(this.id);
     this.$store.dispatch('board/getBoards');
     this.$store.dispatch('task/getTasks');
+  }
+
+  get boardId() {
+    return parseInt(this.id);
+  }
+
+  get title() {
+    return this.$store.getters['board/boardDetails'](this.boardId).title;
   }
 
   get board() {
@@ -98,6 +103,18 @@ export default class BoardDetail extends Vue {
 
   get tasks() {
     return this.$store.getters['task/tasks'](this.id);
+  }
+
+  get toDoTasks() {
+    return this.tasks.filter((val: any) => val.status == 'To-Do');
+  }
+
+  get doingTasks() {
+    return this.tasks.filter((val: any) => val.status == 'Doing');
+  }
+
+  get doneTasks() {
+    return this.tasks.filter((val: any) => val.status == 'Done');
   }
 
   newTask() {
@@ -115,8 +132,7 @@ export default class BoardDetail extends Vue {
 h1 {
   color: #4d4d4d;
 }
-
-h2 {
+<<<<<<< head h2 {
   color: rgba(77, 77, 77, 0.6);
   font-style: italic;
 }
@@ -142,7 +158,33 @@ h2 {
   width: 95%;
 }
 
-.border-right  {
+======= h2 {
+  color: rgba(77, 77, 77, 0.6);
+  font-style: italic;
+}
+
+.border-top {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+  padding: 10px;
+  border-top: 2px solid gray;
+  width: 100%;
+  height: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.column-container {
+  background-color: rgba(77, 77, 77, 0.05);
+  // border: 1px solid gray;
+  border-radius: 10px;
+  height: 100%;
+  overflow-y: scroll;
+  width: 95%;
+}
+
+>>>>>>>master .border-right  {
   display: flex;
   border-right: 2px solid gray !important;
   border-right-style: dotted !important;

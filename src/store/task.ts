@@ -50,5 +50,11 @@ export default {
     taskDetails: function(state: any) {
       return (taskId: any) => state.tasks.find((val: any) => val.id == taskId);
     },
+    search: function(state: any) {
+      return (query: string) =>
+        state.tasks.filter((val: any) =>
+          val.title.toLowerCase().includes(query)
+        );
+    },
   },
 };

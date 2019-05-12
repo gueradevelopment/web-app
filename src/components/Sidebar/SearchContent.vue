@@ -9,21 +9,23 @@
     <div v-if="result != {}">
       <div v-for="(value, key, index) in result" v-bind:key="index">
         <div v-if="key == 'tasks'">
-          <span>Tasks: </span>
+          <span v-if="value.length !== 0 && key == 'tasks'">Tasks: </span>
           <ResultElement
             v-for="(taskItem, lIndex) in value"
             v-bind:key="lIndex"
             :item="taskItem"
             :type="'task'"
+            @close="close"
           />
         </div>
         <div v-else-if="key == 'boards'">
-          <span>Boards: </span>
+          <span v-if="value.length !== 0 && key == 'boards'">Boards: </span>
           <ResultElement
             v-for="(boardItem, lIndex) in value"
             v-bind:key="lIndex"
             :item="boardItem"
             :type="'board'"
+            @close="close"
           />
         </div>
       </div>
@@ -47,31 +49,6 @@ export default class SearchContent extends Vue {
   // MOCK JSON RESPONSE
   result: Object;
 
-  mockResult = {
-    tasks: [
-      {
-        taskId: 1,
-        taskName: 'Task Name 1',
-        parentBoardId: 1,
-      },
-      {
-        taskId: 2,
-        taskName: 'Task Name 2',
-        parentBoardId: 1,
-      },
-    ],
-    boards: [
-      {
-        boardId: 1,
-        boardName: 'Board Name 1',
-      },
-      {
-        boardId: 2,
-        boardName: 'Board Name 2',
-      },
-    ],
-  };
-
   constructor() {
     super();
     this.queryText = '';
@@ -88,11 +65,17 @@ export default class SearchContent extends Vue {
   onInput() {
     // MOCK JSON RESPONSE
     if (this.queryText.length > 0) {
-      this.result = this.mockResult;
+      this.result = {
+        tasks: this.$store.getters['task/search'](this.queryText),
+        boards: this.$store.getters['board/search'](this.queryText),
+      };
     } else {
       this.result = {};
     }
   }
+
+  @Emit('close')
+  close() {}
 }
 </script>
 

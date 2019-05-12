@@ -2,7 +2,7 @@
   <div id="modal" :class="{ open }">
     <div id="modal-content">
       <SearchIcons @close="close" />
-      <SearchContent />
+      <SearchContent @close="close" />
     </div>
     <div id="grey-area" @click="close"></div>
   </div>
