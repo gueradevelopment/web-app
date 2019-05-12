@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-      v-model="dialog"
+      v-model="createDialog"
       width="400"
   >
     <div class="task-detail">
@@ -13,11 +13,8 @@
               <span class="subheading px-5 mt-3 font-italic">Board</span>
             </v-layout>
             <v-layout row class="px-5">
-              <v-flex 6 class="pa-2" :class="{'editable': !editingTitle, 'editing': editingTitle}">
-                <span v-if="!editingTitle" @click="editingTitle = true" class="display-2">{{ currentTask.title }}</span>
-                <div v-else>
-                  <input ref="titleInput" type="text" @focusout="cancelEdit('title')" @keyup.esc="cancelEdit('title')" class="display-2" v-model="currentTask.title" placeholder="Title">
-                </div>
+              <v-flex 6 class="pa-2 editing">
+                <input ref="titleInput" type="text" class="display-2" v-model="currentTask.title" placeholder="Title">
               </v-flex>
             </v-layout>
           </v-layout>
@@ -31,17 +28,12 @@
               <span class="ml-2 headline font-weight-light">El Guera</span>
             </v-layout>
             <v-layout row class="mt-4 subheading editable">
-              <v-flex 12 :class="{'editable': !editingDescription, 'editing': editingDescription}">
-                <div v-if="!editingDescription" @click="editingDescription = true">
-                  {{ currentTask.description }}
-                </div>
-                <div v-else>
-                  <textarea @load="triggerDescriptionFocus()" id="description-input" class="pa-2" @focusout="cancelEdit('description')" @keyup.esc="cancelEdit('description')" v-model="currentTask.description" rows="5" placeholder="Description"></textarea>
-                </div>
+              <v-flex 12 class="editing">
+                <textarea id="description-input" class="pa-2" v-model="currentTask.description" rows="5" placeholder="Description"></textarea>
               </v-flex>
               
             </v-layout>
-            <v-layout row class="mt-5">
+            <!-- <v-layout row class="mt-5">
               <v-select
                 :items="status"
                 solo
@@ -49,10 +41,10 @@
                 background-color="#A7E2D2"
                 placeholder="Status"
                 />
-            </v-layout>
+            </v-layout> -->
             <v-layout row class="mt-5">
-                <v-btn @click="console.log('update')" block depressed large color="#A7E2D2" >
-                    Update
+                <v-btn @click="createTask" block depressed large color="#A7E2D2" >
+                    Create
                 </v-btn>
             </v-layout>
           </v-layout>
@@ -70,37 +62,26 @@ import $ from "jquery";
 @Component
 export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
-  @Prop({ required: true }) dialog!:boolean;
+  @Prop({ required: true }) createDialog!:boolean;
+  @Prop({ required: true }) boardId!:number;
   private status: string[] = ["To-Do", "Doing", "Done"];
-  private editingTitle: boolean = false;
-  private editingDescription: boolean = false;
 
   constructor() {
     super();
   }
 
-  cancelEdit(section: string) {
-    switch(section) {
-      case "title":
-        this.currentTask.title = (this.currentTask.title.length > 0)? 
-                            this.currentTask.title :
-                            "Title"
-        this.editingTitle = false;
-        break;
-      case "description":
-        this.currentTask.description = (this.currentTask.description != null && this.currentTask.description!.length > 0)?
-                            this.currentTask.description :
-                            "Description"
-        this.editingDescription = false;
-        break;
-    }
+  createTask() {
+    console.log("Creating task", this.currentTask.title);
+    const task = {
+        title: this.currentTask.title,
+        description: this.currentTask.description,
+        boardId: this.boardId,
+    };
+    this.$store.dispatch("task/createTask", task)
+    this.closeModal();
   }
 
-  updateTask() {
-    console.log("Updating task", this.currentTask.id);
-  }
-
-  @Watch('dialog')
+  @Watch('createDialog')
   onDialogChanged(val: string, oldVal: string) {
     if(!val) {
       this.closeModal();

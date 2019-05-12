@@ -12,7 +12,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">To-Do</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in toDoTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -22,7 +22,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">Doing</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in doingTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -32,7 +32,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">Done</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in doneTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -40,35 +40,68 @@
                 </v-flex>
             </v-layout>
         </v-layout>
+        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog" :boardId="boardId"/>
     </v-container>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Task from "@/components/Content/Task.vue";
+    import CreateTask from "@/components/Details/CreateTask.vue";
     import Data from "@/data";
 
     @Component({
         components: {
-            Task
+            Task,
+            CreateTask
         }
     })
 
     export default class BoardDetail extends Vue {
         @Prop() private id!: string;
-        private boardId!: number;
-        private title: string = "Board Title"
-        private tasks: object[] = [];
+
+        private createDialog: boolean = false;
 
         created() {
-            this.boardId = parseInt(this.id);
-            const board = Data.boards.find(val => val.id === this.boardId)!;
-            this.tasks = board.tasks
-            this.title = board.title
+            this.$store.dispatch("board/getBoards");
+            this.$store.dispatch("task/getTasks");
+        }
+
+        get boardId() {
+            return parseInt(this.id);
+        }
+
+        get title() {
+            return this.$store.getters["board/boardDetails"](this.boardId).title;
+        }
+
+        get board () {
+            return this.$store.getters["board/boardDetails"](this.boardId);
+        }
+
+        get tasks() {
+            return this.$store.getters["task/tasks"](this.id);
+        }
+
+        get toDoTasks() {
+            return this.tasks.filter((val: any) => val.status == "To-Do");
+        }
+
+        get doingTasks() {
+            return this.tasks.filter((val: any) => val.status == "Doing");
+        }
+
+        get doneTasks() {
+            return this.tasks.filter((val: any) => val.status == "Done");
         }
 
         newTask() {
             console.log(`New task from board ${this.id}`);
+            this.createDialog = true;
+        }
+
+        closeModal() {
+            this.createDialog = false;
         }
     }
 </script>
