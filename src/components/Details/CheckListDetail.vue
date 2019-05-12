@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import TaskDetail from "./TaskDetail.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import TaskDetail from './TaskDetail.vue';
 
 interface Task {
   title: string;
@@ -19,8 +19,8 @@ interface Task {
 
 @Component({
   components: {
-    TaskDetail
-  }
+    TaskDetail,
+  },
 })
 export default class CheckListDetail extends Vue {
   @Prop() private tasks!: Task[];

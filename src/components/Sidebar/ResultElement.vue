@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class ResultElement extends Vue {
@@ -34,18 +34,18 @@ export default class ResultElement extends Vue {
     super();
   }
 
-  @Emit("close")
+  @Emit('close')
   action() {
-    if (this.type == "board") {
+    if (this.type == 'board') {
       this.goToBoard(this.item.id);
     }
-    if (this.type == "task") {
+    if (this.type == 'task') {
       this.goToBoard(this.item.boardId);
     }
   }
 
   goToBoard(id: any) {
-    console.log("Clicked");
+    console.log('Clicked');
     this.$router.push(`/board/${id}`);
   }
 }

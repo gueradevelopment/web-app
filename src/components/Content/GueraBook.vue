@@ -13,23 +13,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Board from "@/components/Content/Board.vue";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Board from '@/components/Content/Board.vue';
 
 @Component({
   components: {
-    Board
-  }
+    Board,
+  },
 })
 export default class GueraBook extends Vue {
   @Prop() private id!: string;
 
   async created() {
-    this.$store.dispatch("board/getBoards");
+    this.$store.dispatch('board/getBoards');
   }
 
   get boards() {
-    return this.$store.getters["board/boards"];
+    return this.$store.getters['board/boards'];
   }
 }
 </script>

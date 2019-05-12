@@ -21,19 +21,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
-import IconsBar from "@/components/Sidebar/IconsBar.vue";
-import MenuBar from "@/components/Sidebar/MenuBar.vue";
-import SearchModal from "@/components/Sidebar/SearchModal.vue";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
+import IconsBar from '@/components/Sidebar/IconsBar.vue';
+import MenuBar from '@/components/Sidebar/MenuBar.vue';
+import SearchModal from '@/components/Sidebar/SearchModal.vue';
 
 @Component({
   components: {
     IconsBar,
     MenuBar,
-    SearchModal
-  }
+    SearchModal,
+  },
 })
 export default class Sidebar extends Vue {
   @Prop({ required: true, default: false }) sidebarActive!: boolean;
@@ -47,11 +47,11 @@ export default class Sidebar extends Vue {
   }
 
   activate() {
-    this.$emit("update:sidebarActive", true);
+    this.$emit('update:sidebarActive', true);
   }
 
   showDropdownChanged(e: boolean) {
-    this.$emit("show-dropdown", e);
+    this.$emit('show-dropdown', e);
   }
 
   searchClicked() {

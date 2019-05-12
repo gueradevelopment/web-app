@@ -1,19 +1,19 @@
-import Data from "../data";
+import Data from '../data';
 
 export default {
   namespaced: true,
   state: {
-    boards: []
+    boards: [],
   },
   actions: {
     getBoards: function({ commit }: { commit: any }) {
-      commit("setBoards", Data.boards);
-    }
+      commit('setBoards', Data.boards);
+    },
   },
   mutations: {
     setBoards: function(state: any, boards: any) {
       state.boards = boards;
-    }
+    },
   },
   getters: {
     boards: function(state: any) {
@@ -28,6 +28,6 @@ export default {
         state.boards.filter((val: any) =>
           val.title.toLowerCase().includes(query)
         );
-    }
-  }
+    },
+  },
 };

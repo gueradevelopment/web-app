@@ -18,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class SearchIcons extends Vue {
-  @Emit("close")
+  @Emit('close')
   close() {}
 
   hoverBack: boolean;

@@ -25,16 +25,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Task from "./Task.vue";
-import CreateTask from "@/components/Details/CreateTask.vue";
-import Data from "@/data";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Task from './Task.vue';
+import CreateTask from '@/components/Details/CreateTask.vue';
+import Data from '@/data';
 
 @Component({
   components: {
     Task,
-    CreateTask
-  }
+    CreateTask,
+  },
 })
 export default class Board extends Vue {
   @Prop() private id!: number;
@@ -47,16 +47,16 @@ export default class Board extends Vue {
   }
 
   async created() {
-    this.$store.dispatch("task/getTasks");
+    this.$store.dispatch('task/getTasks');
     console.log(this.tasks);
   }
 
   get tasks() {
-    return this.$store.getters["task/tasks"](this.id);
+    return this.$store.getters['task/tasks'](this.id);
   }
 
   horizontalScroll(e: any) {
-    const board = this.$refs["boardList"] as HTMLDivElement;
+    const board = this.$refs['boardList'] as HTMLDivElement;
     e = window.event || e;
     const delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
     board.scrollLeft -= delta * 25; // Multiplied by 40

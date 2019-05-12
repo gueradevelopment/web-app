@@ -46,7 +46,7 @@
                 12
                 :class="{
                   editable: !editingDescription,
-                  editing: editingDescription
+                  editing: editingDescription,
                 }"
               >
                 <div
@@ -97,15 +97,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
-import { Task } from "@/models/BoardModel";
-import $ from "jquery";
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
+import { Task } from '@/models/BoardModel';
+import $ from 'jquery';
 
 @Component
 export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
   @Prop({ required: true }) dialog!: boolean;
-  private status: string[] = ["To-Do", "Doing", "Done"];
+  private status: string[] = ['To-Do', 'Doing', 'Done'];
   private editingTitle: boolean = false;
   private editingDescription: boolean = false;
 
@@ -115,34 +115,34 @@ export default class TaskDetail extends Vue {
 
   cancelEdit(section: string) {
     switch (section) {
-      case "title":
+      case 'title':
         this.currentTask.title =
-          this.currentTask.title.length > 0 ? this.currentTask.title : "Title";
+          this.currentTask.title.length > 0 ? this.currentTask.title : 'Title';
         this.editingTitle = false;
         break;
-      case "description":
+      case 'description':
         this.currentTask.description =
           this.currentTask.description != null &&
           this.currentTask.description!.length > 0
             ? this.currentTask.description
-            : "Description";
+            : 'Description';
         this.editingDescription = false;
         break;
     }
   }
 
   updateTask() {
-    console.log("Updating task", this.currentTask.id);
+    console.log('Updating task', this.currentTask.id);
   }
 
-  @Watch("dialog")
+  @Watch('dialog')
   onDialogChanged(val: string, oldVal: string) {
     if (!val) {
       this.closeModal();
     }
   }
 
-  @Watch("editingTitle")
+  @Watch('editingTitle')
   onEditingTitleChanged(val: boolean, oldVal: boolean) {
     if (val) {
       this.triggerTitleFocus();
@@ -150,21 +150,21 @@ export default class TaskDetail extends Vue {
   }
 
   triggerTitleFocus() {
-    $("#title-input").focus();
+    $('#title-input').focus();
     console.log(this.$refs.titleInput);
     // this.$refs.titleInput.focus();
   }
 
-  @Watch("editingDescription")
+  @Watch('editingDescription')
   onEditingDescriptionChanged(val: boolean, oldVal: boolean) {
     if (val) this.triggerDescriptionFocus();
   }
 
   triggerDescriptionFocus() {
-    $("#description-input").focus();
+    $('#description-input').focus();
   }
 
-  @Emit("closed-modal")
+  @Emit('closed-modal')
   closeModal() {}
 }
 </script>

@@ -20,13 +20,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Sidebar from "@/components/Sidebar/Sidebar.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import Sidebar from '@/components/Sidebar/Sidebar.vue';
 
 @Component({
   components: {
-    Sidebar
-  }
+    Sidebar,
+  },
 })
 export default class Dashboard extends Vue {
   sidebarActive: boolean;
@@ -40,12 +40,12 @@ export default class Dashboard extends Vue {
 
   mounted() {
     fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/validate`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include"
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
     }).then(res => {
       if (!res.status || res.status !== 200) {
-        window.location.href = "http://localhost:8080/#/login";
+        window.location.href = 'http://localhost:8080/#/login';
       }
     });
   }

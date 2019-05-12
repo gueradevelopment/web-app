@@ -60,40 +60,40 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit, Watch } from "vue-property-decorator";
-import { Task } from "@/models/BoardModel";
-import $ from "jquery";
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
+import { Task } from '@/models/BoardModel';
+import $ from 'jquery';
 
 @Component
 export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
   @Prop({ required: true }) createDialog!: boolean;
   @Prop({ required: true }) boardId!: number;
-  private status: string[] = ["To-Do", "Doing", "Done"];
+  private status: string[] = ['To-Do', 'Doing', 'Done'];
 
   constructor() {
     super();
   }
 
   createTask() {
-    console.log("Creating task", this.currentTask.title);
+    console.log('Creating task', this.currentTask.title);
     const task = {
       title: this.currentTask.title,
       description: this.currentTask.description,
-      boardId: this.boardId
+      boardId: this.boardId,
     };
-    this.$store.dispatch("task/createTask", task);
+    this.$store.dispatch('task/createTask', task);
     this.closeModal();
   }
 
-  @Watch("createDialog")
+  @Watch('createDialog')
   onDialogChanged(val: string, oldVal: string) {
     if (!val) {
       this.closeModal();
     }
   }
 
-  @Watch("editingTitle")
+  @Watch('editingTitle')
   onEditingTitleChanged(val: boolean, oldVal: boolean) {
     if (val) {
       this.triggerTitleFocus();
@@ -101,21 +101,21 @@ export default class TaskDetail extends Vue {
   }
 
   triggerTitleFocus() {
-    $("#title-input").focus();
+    $('#title-input').focus();
     console.log(this.$refs.titleInput);
     // this.$refs.titleInput.focus();
   }
 
-  @Watch("editingDescription")
+  @Watch('editingDescription')
   onEditingDescriptionChanged(val: boolean, oldVal: boolean) {
     if (val) this.triggerDescriptionFocus();
   }
 
   triggerDescriptionFocus() {
-    $("#description-input").focus();
+    $('#description-input').focus();
   }
 
-  @Emit("closed-modal")
+  @Emit('closed-modal')
   closeModal() {}
 }
 </script>

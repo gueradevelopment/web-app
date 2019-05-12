@@ -49,14 +49,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class Login extends Vue {
   descriptionText: string;
   login: boolean;
 
-  logContinue = "Please, log in to continue to Guera";
+  logContinue = 'Please, log in to continue to Guera';
 
   constructor() {
     super();
@@ -80,8 +80,8 @@ export default class Login extends Vue {
 
 <style scoped lang="scss">
 @font-face {
-  font-family: "Sky Sans";
-  src: url("./../assets/SkySans.ttf") format("truetype");
+  font-family: 'Sky Sans';
+  src: url('./../assets/SkySans.ttf') format('truetype');
 }
 
 $l-green-pal: #a7e2d2;
@@ -94,7 +94,7 @@ $pink-pal-grey: #cea098;
 $bg-color: $l-green-pal;
 
 #text-description {
-  font-family: "Sky Sans";
+  font-family: 'Sky Sans';
   color: #4d4d4d;
 }
 

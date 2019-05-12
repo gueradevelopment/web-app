@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
 @Component
 export default class MenuBar extends Vue {
@@ -35,8 +35,8 @@ export default class MenuBar extends Vue {
 
 <style scoped lang="scss">
 @font-face {
-  font-family: "Sky Sans";
-  src: url("./../../assets/SkySans.ttf") format("truetype");
+  font-family: 'Sky Sans';
+  src: url('./../../assets/SkySans.ttf') format('truetype');
 }
 
 $l-green-pal: #a7e2d2;
@@ -70,7 +70,7 @@ $bg-color: $l-green-pal;
   position: absolute;
   top: 78px;
   left: 15px;
-  font-family: "Sky Sans";
+  font-family: 'Sky Sans';
   font-size: 17px;
 }
 

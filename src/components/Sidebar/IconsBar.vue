@@ -48,9 +48,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
 
 @Component
 export default class IconsBar extends Vue {
@@ -68,19 +68,19 @@ export default class IconsBar extends Vue {
 
   logout() {
     fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/logout`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include"
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
     }).then(res => {
-      window.location.href = "http://localhost:8080/#/login";
+      window.location.href = 'http://localhost:8080/#/login';
     });
   }
 
   showDropdownChanged(e: boolean) {
-    this.$emit("show-dropdown", e);
+    this.$emit('show-dropdown', e);
   }
 
-  @Emit("search-clicked")
+  @Emit('search-clicked')
   search() {}
 }
 </script>

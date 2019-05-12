@@ -21,15 +21,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import TaskDetail from "@/components/Details/TaskDetail.vue";
-import { Task as TaskInterface } from "@/models/BoardModel";
-import Data from "@/data";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import TaskDetail from '@/components/Details/TaskDetail.vue';
+import { Task as TaskInterface } from '@/models/BoardModel';
+import Data from '@/data';
 
 @Component({
   components: {
-    TaskDetail
-  }
+    TaskDetail,
+  },
 })
 export default class Task extends Vue {
   @Prop() private boardId!: number;
@@ -41,9 +41,9 @@ export default class Task extends Vue {
   private dialog: boolean = false;
   currentTask: TaskInterface = {
     id: 0,
-    title: "",
-    description: "",
-    shortDescription: ""
+    title: '',
+    description: '',
+    shortDescription: '',
   };
 
   constructor() {
@@ -51,24 +51,24 @@ export default class Task extends Vue {
   }
 
   async created() {
-    this.$store.dispatch("task/getTasks");
+    this.$store.dispatch('task/getTasks');
 
     this.currentTask.id =
       this.taskDetail.id != undefined ? this.taskDetail.id : 0;
     this.currentTask.title =
-      this.taskDetail.title != undefined ? this.taskDetail.title : "";
+      this.taskDetail.title != undefined ? this.taskDetail.title : '';
     this.currentTask.description =
       this.taskDetail.description != undefined
         ? this.taskDetail.description
-        : "";
+        : '';
     this.currentTask.shortDescription =
       this.taskDetail.shortDescription != undefined
         ? this.taskDetail.shortDescription
-        : "";
+        : '';
   }
 
   get taskDetail() {
-    return this.$store.getters["task/taskDetails"](this.id);
+    return this.$store.getters['task/taskDetails'](this.id);
   }
 
   onClick(e: MouseEvent) {
@@ -76,7 +76,7 @@ export default class Task extends Vue {
   }
 
   onEdit(e: MouseEvent) {
-    alert("Edit time");
+    alert('Edit time');
   }
 
   closeModal() {
@@ -87,8 +87,8 @@ export default class Task extends Vue {
 
 <style scoped lang="scss">
 @font-face {
-  font-family: "Sky Sans";
-  src: url("./../../assets/SkySans.ttf") format("truetype");
+  font-family: 'Sky Sans';
+  src: url('./../../assets/SkySans.ttf') format('truetype');
 }
 
 $mint: #a7e2d2;
@@ -103,7 +103,7 @@ $white: rgba(0, 0, 0, 0.2);
 }
 
 .title > span {
-  font-family: "Sky Clear", sans-serif;
+  font-family: 'Sky Clear', sans-serif;
   color: rgb(255, 140, 104);
   font-weight: bold;
 }

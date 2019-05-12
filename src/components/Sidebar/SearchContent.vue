@@ -34,15 +34,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
-import ResultElement from "@/components/Sidebar/ResultElement.vue";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
+import ResultElement from '@/components/Sidebar/ResultElement.vue';
 
 @Component({
   components: {
-    ResultElement
-  }
+    ResultElement,
+  },
 })
 export default class SearchContent extends Vue {
   queryText: String;
@@ -51,13 +51,13 @@ export default class SearchContent extends Vue {
 
   constructor() {
     super();
-    this.queryText = "";
+    this.queryText = '';
     this.result = {};
   }
 
   mounted() {
-    this.$root.$on("clearSearch", () => {
-      this.queryText = "";
+    this.$root.$on('clearSearch', () => {
+      this.queryText = '';
       this.result = {};
     });
   }
@@ -66,15 +66,15 @@ export default class SearchContent extends Vue {
     // MOCK JSON RESPONSE
     if (this.queryText.length > 0) {
       this.result = {
-        tasks: this.$store.getters["task/search"](this.queryText),
-        boards: this.$store.getters["board/search"](this.queryText)
+        tasks: this.$store.getters['task/search'](this.queryText),
+        boards: this.$store.getters['board/search'](this.queryText),
       };
     } else {
       this.result = {};
     }
   }
 
-  @Emit("close")
+  @Emit('close')
   close() {}
 }
 </script>
@@ -98,9 +98,9 @@ $bg-color: #ffffff;
   height: 85%;
 }
 
-input[type="text"] {
+input[type='text'] {
   font-size: 20px;
-  font-family: "Sky Sans";
+  font-family: 'Sky Sans';
   width: 260px;
   padding: 8px 10px;
   margin: 8px 0;
@@ -111,6 +111,6 @@ input[type="text"] {
 }
 
 span {
-  font-family: "Sky Sans";
+  font-family: 'Sky Sans';
 }
 </style>

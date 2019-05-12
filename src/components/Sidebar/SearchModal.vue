@@ -9,17 +9,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
-import { Prop, Emit } from "vue-property-decorator";
-import SearchIcons from "@/components/Sidebar/SearchIcons.vue";
-import SearchContent from "@/components/Sidebar/SearchContent.vue";
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import { Prop, Emit } from 'vue-property-decorator';
+import SearchIcons from '@/components/Sidebar/SearchIcons.vue';
+import SearchContent from '@/components/Sidebar/SearchContent.vue';
 
 @Component({
   components: {
     SearchIcons,
-    SearchContent
-  }
+    SearchContent,
+  },
 })
 export default class SearchModal extends Vue {
   @Prop({ required: true, default: false }) open!: boolean;
@@ -32,8 +32,8 @@ export default class SearchModal extends Vue {
   }
 
   close() {
-    this.$root.$emit("clearSearch");
-    this.$emit("close");
+    this.$root.$emit('clearSearch');
+    this.$emit('close');
   }
 }
 </script>

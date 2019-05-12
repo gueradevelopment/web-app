@@ -68,16 +68,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import Task from "@/components/Content/Task.vue";
-import CreateTask from "@/components/Details/CreateTask.vue";
-import Data from "@/data";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Task from '@/components/Content/Task.vue';
+import CreateTask from '@/components/Details/CreateTask.vue';
+import Data from '@/data';
 
 @Component({
   components: {
     Task,
-    CreateTask
-  }
+    CreateTask,
+  },
 })
 export default class BoardDetail extends Vue {
   @Prop() private id!: string;
@@ -85,8 +85,8 @@ export default class BoardDetail extends Vue {
   private createDialog: boolean = false;
 
   created() {
-    this.$store.dispatch("board/getBoards");
-    this.$store.dispatch("task/getTasks");
+    this.$store.dispatch('board/getBoards');
+    this.$store.dispatch('task/getTasks');
   }
 
   get boardId() {
@@ -94,27 +94,27 @@ export default class BoardDetail extends Vue {
   }
 
   get title() {
-    return this.$store.getters["board/boardDetails"](this.boardId).title;
+    return this.$store.getters['board/boardDetails'](this.boardId).title;
   }
 
   get board() {
-    return this.$store.getters["board/boardDetails"](this.boardId);
+    return this.$store.getters['board/boardDetails'](this.boardId);
   }
 
   get tasks() {
-    return this.$store.getters["task/tasks"](this.id);
+    return this.$store.getters['task/tasks'](this.id);
   }
 
   get toDoTasks() {
-    return this.tasks.filter((val: any) => val.status == "To-Do");
+    return this.tasks.filter((val: any) => val.status == 'To-Do');
   }
 
   get doingTasks() {
-    return this.tasks.filter((val: any) => val.status == "Doing");
+    return this.tasks.filter((val: any) => val.status == 'Doing');
   }
 
   get doneTasks() {
-    return this.tasks.filter((val: any) => val.status == "Done");
+    return this.tasks.filter((val: any) => val.status == 'Done');
   }
 
   newTask() {
