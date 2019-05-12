@@ -13,6 +13,7 @@
                 </v-btn>
             </v-flex>
         </v-layout>
+        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog"/>
     </div>
 </template>
 
@@ -20,17 +21,21 @@
 
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Task from "./Task.vue";
+    import CreateTask from "@/components/Details/CreateTask.vue";
     import Data from "@/data";
 
     @Component({
         components: {
-            Task
+            Task,
+            CreateTask
         }
     })
     export default class Board extends Vue {
 
         @Prop() private id!: number;
         @Prop() private title!: string;
+
+        private createDialog: boolean = false;
 
         constructor() {
             super();
@@ -55,6 +60,11 @@
 
         newTask() {
             console.log(`New task from board ${this.id}`);
+            this.createDialog = true;
+        }
+
+        closeModal() {
+            this.createDialog = false;
         }
     }
 
