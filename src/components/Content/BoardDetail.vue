@@ -40,7 +40,7 @@
                 </v-flex>
             </v-layout>
         </v-layout>
-        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog"/>
+        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog" :boardId="boardId"/>
     </v-container>
 </template>
 

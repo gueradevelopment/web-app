@@ -33,7 +33,7 @@
               </v-flex>
               
             </v-layout>
-            <v-layout row class="mt-5">
+            <!-- <v-layout row class="mt-5">
               <v-select
                 :items="status"
                 solo
@@ -41,18 +41,14 @@
                 background-color="#A7E2D2"
                 placeholder="Status"
                 />
+            </v-layout> -->
+            <v-layout row class="mt-5">
+                <v-btn @click="createTask" block depressed large color="#A7E2D2" >
+                    Create
+                </v-btn>
             </v-layout>
           </v-layout>
         </v-card-text>
-        <v-card-actions>
-          <v-btn
-              right
-              color="primary"
-              flat
-              @click="createTask"
-              >Create Task
-          </v-btn>
-        </v-card-actions>
       </v-card>
    </div>
   </v-dialog>
@@ -67,33 +63,22 @@ import $ from "jquery";
 export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
   @Prop({ required: true }) createDialog!:boolean;
+  @Prop({ required: true }) boardId!:number;
   private status: string[] = ["To-Do", "Doing", "Done"];
-  private editingTitle: boolean = false;
-  private editingDescription: boolean = false;
 
   constructor() {
     super();
   }
 
-  cancelEdit(section: string) {
-    switch(section) {
-      case "title":
-        this.currentTask.title = (this.currentTask.title.length > 0)? 
-                            this.currentTask.title :
-                            "Title"
-        this.editingTitle = false;
-        break;
-      case "description":
-        this.currentTask.description = (this.currentTask.description != null && this.currentTask.description!.length > 0)?
-                            this.currentTask.description :
-                            "Description"
-        this.editingDescription = false;
-        break;
-    }
-  }
-
   createTask() {
     console.log("Creating task", this.currentTask.title);
+    const task = {
+        title: this.currentTask.title,
+        description: this.currentTask.description,
+        boardId: this.boardId,
+    };
+    this.$store.dispatch("task/createTask", task)
+    this.closeModal();
   }
 
   @Watch('createDialog')

@@ -6,13 +6,23 @@ export default {
         tasks: Data.tasks
     },
     actions: {
-        getTasks: function ({ commit }: { commit: any }) {
-            commit("setTasks", Data.tasks);
+        getTasks: function ({ state, commit }: { state: any, commit: any }) {
+            if (state.tasks.length == 0) {
+                commit("setTasks", Data.tasks);
+            }
+        },
+        createTask: function ({ state, commit }: { state: any, commit: any }, task: any) {
+            task.id = state.tasks.length;
+            task.shortDescription = "";
+            commit("add", task);
         }
     },
     mutations: {
         setTasks: function (state: any, tasks: any) {
             state.tasks = tasks;
+        },
+        add: function (state: any, task: any) {
+            state.tasks = [...state.tasks, task];
         }
     },
     getters: {

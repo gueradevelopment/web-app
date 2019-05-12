@@ -13,7 +13,7 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog"/>
+        <CreateTask v-on:closed-modal="closeModal" :currentTask="{}" :createDialog="createDialog" :boardId="id"/>
     </div>
 </template>
 

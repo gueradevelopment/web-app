@@ -50,17 +50,13 @@
                 placeholder="Status"
                 />
             </v-layout>
+            <v-layout row class="mt-5">
+                <v-btn @click="console.log('update')" block depressed large color="#A7E2D2" >
+                    Update
+                </v-btn>
+            </v-layout>
           </v-layout>
         </v-card-text>
-        <v-card-actions>
-          <v-btn
-              right
-              color="primary"
-              flat
-              @click="updateTask"
-              >OK 
-          </v-btn>
-        </v-card-actions>
       </v-card>
    </div>
   </v-dialog>
