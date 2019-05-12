@@ -2,7 +2,7 @@
     <v-container fill-height class="board pa-0 ma-0">
         <v-layout column>
             <v-layout align-start justify-space-between row>
-                <h1>{{ board.title }}</h1>
+                <h1>{{ title }}</h1>
                 <v-btn @click="newTask" large flat icon color="#4D4D4D">
                     <v-icon medium color="#4D4D4D">add</v-icon>
                 </v-btn>
@@ -59,15 +59,20 @@
 
     export default class BoardDetail extends Vue {
         @Prop() private id!: string;
-        private boardId!: number;
-        private title: string = "Board Title"
 
         private createDialog: boolean = false;
 
         created() {
-            this.boardId = parseInt(this.id);
             this.$store.dispatch("board/getBoards");
             this.$store.dispatch("task/getTasks");
+        }
+
+        get boardId() {
+            return parseInt(this.id);
+        }
+
+        get title() {
+            return this.$store.getters["board/boardDetails"](this.boardId).title;
         }
 
         get board () {

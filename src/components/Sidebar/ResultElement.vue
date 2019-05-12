@@ -1,12 +1,11 @@
 <template>
-    <div id="item-wrapper">
+    <div id="item-wrapper" @click="action()">
         <div v-if="type == 'task'">
             <div id="image-container">
                 <img src="@/assets/task.svg">
             </div>
             <div id="data-container" class="task">
-                <span>{{ item.taskName }}</span>
-                <span>Parent Board ID: {{ item.parentBoardId }}</span>
+                <span>{{ item.title }}</span>
             </div>
         </div>
 
@@ -15,7 +14,7 @@
                 <img src="@/assets/board.svg">
             </div>
             <div id="data-container" class="board">
-                <span>{{ item.boardName }}</span>
+                <span>{{ item.title }}</span>
             </div>
         </div>
 
@@ -30,10 +29,24 @@ import { Prop, Emit } from 'vue-property-decorator'
 @Component
 export default class ResultElement extends Vue {
     @Prop({ required: true, type: String })type!:String;
-    @Prop({ required: true, type: Object })item!:{};
+    @Prop({ required: true, type: Object })item!:any;
 
     constructor() {
         super();
+    }
+
+    @Emit("close")
+    action () {
+        if (this.type == "board") {
+            this.goToBoard(this.item.id);
+        } if (this.type == "task") {
+            this.goToBoard(this.item.boardId);
+        }
+    }
+
+    goToBoard(id: any) {
+        console.log("Clicked");
+        this.$router.push(`/board/${id}`);
     }
 }
 </script>
