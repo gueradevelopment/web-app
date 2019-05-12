@@ -10,11 +10,6 @@
 
     import { Component, Prop, Vue } from "vue-property-decorator";
     import Board from "@/components/Content/Board.vue";
-    import Data from "../../data";
-
-    interface BoardsGet {
-        boards: string[];
-    }
 
     @Component({
         components: {
@@ -23,22 +18,16 @@
     })
     export default class GueraBook extends Vue {
 
-        // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/boards";
-        private boards: object[] = [];
 
         @Prop() private id!: string;
 
         async created() {
-            // const response = await fetch(this.url, {
-            //     method: "GET",
-            //     headers: {
-            //         "Accept": "application/json"
-            //     }
-            // });
-            // const payload: BoardsGet = await response.json();
-            this.boards = Data.boards;
+            this.$store.dispatch("board/getBoards");
         }
 
+        get boards () {
+            return this.$store.getters["board/boards"];
+        }
     }
 </script>
 

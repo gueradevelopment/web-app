@@ -23,14 +23,6 @@
     import { Task as TaskInterface } from "@/models/BoardModel"
     import Data from "@/data";
 
-    function isTaskGet(object: any): object is TaskInterface {
-        return (
-            typeof object.id === "number" &&
-            typeof object.title === "string" &&
-            typeof object.shortDescription === "string"
-        );
-    }
-
     @Component({
         components: {
             TaskDetail
@@ -42,7 +34,7 @@
         @Prop() private title!: string;
         @Prop() private shortDescription!: string;
         @Prop() private description!: string;
-        // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/tasks";
+
         private dialog: boolean = false;
         currentTask: TaskInterface = { id: 0, title: "", description: "", shortDescription: ""};
 
@@ -51,25 +43,16 @@
         }
 
         async created() {
-            // const response = await fetch(`${this.url}/${this.id}`, {
-            //     method: "GET",
-            //     headers: {
-            //         "Accept": "application/json"
-            //     }
-            // });
-            // const payload = await response.json();
-            const payload = Data.boards.find(val => val.id === this.boardId)!.tasks.find(val => val.id === this.id)!
+            this.$store.dispatch("task/getTasks");
 
-            this.currentTask.id = payload.id != undefined ? payload.id : 0;
-                this.currentTask.title = payload.title != undefined ? payload.title : "";
-                this.currentTask.description = payload.description != undefined ? payload.description : "";
-                this.currentTask.shortDescription = payload.shortDescription != undefined ? payload.shortDescription : "";
-            // if (isTaskGet(payload)) {
-                
-            // } else {
-            //     console.error(payload);
-            //     throw new Error("Unexpected payload for Task");
-            // }
+            this.currentTask.id = this.taskDetail.id != undefined ? this.taskDetail.id : 0;
+            this.currentTask.title = this.taskDetail.title != undefined ? this.taskDetail.title : "";
+            this.currentTask.description = this.taskDetail.description != undefined ? this.taskDetail.description : "";
+            this.currentTask.shortDescription = this.taskDetail.shortDescription != undefined ? this.taskDetail.shortDescription : "";
+        }
+
+        get taskDetail () {
+            return this.$store.getters["task/taskDetails"](this.id);
         }
 
         onClick(e: MouseEvent) {

@@ -22,21 +22,6 @@
     import Task from "./Task.vue";
     import Data from "@/data";
 
-
-    interface TasksGet {
-        id: string;
-        title: string;
-        tasks: object[];
-    }
-
-    function isTasksGet(object: any): object is TasksGet {
-        return (
-            typeof object["id"] === "string" &&
-            typeof object["title"] === "string" &&
-            Array.isArray(object["tasks"])
-        );
-    }
-
     @Component({
         components: {
             Task
@@ -47,34 +32,17 @@
         @Prop() private id!: number;
         @Prop() private title!: string;
 
-        // private url = "https://7fe7f7a6-7f66-4baf-9c32-20c11832080e.mock.pstmn.io/boards";
-        private tasks: object[] = [];
-
         constructor() {
             super();
         }
 
         async created() {
-            this.tasks = Data.boards.find((val) => val.id == this.id)!.tasks
-            // const response = await fetch(`${this.url}/${this.id}`, {
-            //     method: "GET",
-            //     headers: {
-            //         "Accept": "application/json"
-            //     }
-            // });
-            // const payload = await response.json();
-            // const payload = {
-            //     "id": "0",
-            //     "title": "MyBoard",
-            //     "tasks": [{"id": 0, "title":"Clean my room"}, {"id": 1, "title":"Clean another room"}]
-            // }
-            // if (isTasksGet(payload)) {
-            //     // this.title = payload.title;
-            //     this.tasks = payload.tasks;
-            // } else {
-            //     console.error(payload);
-            //     throw new Error("Unexpected payload for Tasks");
-            // }
+            this.$store.dispatch("task/getTasks");
+            console.log(this.tasks);
+        }
+
+        get tasks() {
+            return this.$store.getters["task/tasks"](this.id);
         }
 
         horizontalScroll(e: any) {

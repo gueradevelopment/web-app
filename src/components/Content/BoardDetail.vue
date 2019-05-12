@@ -2,7 +2,7 @@
     <v-container fill-height class="board pa-0 ma-0">
         <v-layout column>
             <v-layout align-start justify-space-between row>
-                <h1>{{ title }}</h1>
+                <h1>{{ board.title }}</h1>
                 <v-btn @click="newTask" large flat icon color="#4D4D4D">
                     <v-icon medium color="#4D4D4D">add</v-icon>
                 </v-btn>
@@ -58,13 +58,19 @@
         @Prop() private id!: string;
         private boardId!: number;
         private title: string = "Board Title"
-        private tasks: object[] = [];
 
         created() {
             this.boardId = parseInt(this.id);
-            const board = Data.boards.find(val => val.id === this.boardId)!;
-            this.tasks = board.tasks
-            this.title = board.title
+            this.$store.dispatch("board/getBoards");
+            this.$store.dispatch("task/getTasks");
+        }
+
+        get board () {
+            return this.$store.getters["board/boardDetails"](this.boardId);
+        }
+
+        get tasks() {
+            return this.$store.getters["task/tasks"](this.id);
         }
 
         newTask() {
