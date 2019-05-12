@@ -1,10 +1,11 @@
 <template>
   <div>
-    <Sidebar 
-      :sidebarActive.sync="sidebarActive" 
-      :showDropdownMenuOptions.sync="showDropdownMenuOptions" 
+    <Sidebar
+      :sidebarActive.sync="sidebarActive"
+      :showDropdownMenuOptions.sync="showDropdownMenuOptions"
       @show-dropdown="showDropdownChanged"
-      ref="Sidebar"/>
+      ref="Sidebar"
+    />
 
     <div id="content" @click="deactivate" :class="{ sidebarActive }">
       <div id="nav">
@@ -12,20 +13,20 @@
         <router-link to="/about">About</router-link>
       </div>
       <div id="viewer">
-        <router-view/>
+        <router-view />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Sidebar from '@/components/Sidebar/Sidebar.vue';
+import { Component, Vue } from "vue-property-decorator";
+import Sidebar from "@/components/Sidebar/Sidebar.vue";
 
 @Component({
   components: {
-    Sidebar,
-  },
+    Sidebar
+  }
 })
 export default class Dashboard extends Vue {
   sidebarActive: boolean;
@@ -41,15 +42,15 @@ export default class Dashboard extends Vue {
     fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/validate`, {
       method: "GET",
       mode: "cors",
-      credentials: "include",
+      credentials: "include"
     }).then(res => {
-      if(!res.status || res.status !== 200) {
-        window.location.href = "http://localhost:8080/#/login"
+      if (!res.status || res.status !== 200) {
+        window.location.href = "http://localhost:8080/#/login";
       }
-    })
+    });
   }
 
-  showDropdownChanged(e:boolean) {
+  showDropdownChanged(e: boolean) {
     this.showDropdownMenuOptions = e;
   }
 
@@ -61,14 +62,13 @@ export default class Dashboard extends Vue {
 </script>
 
 <style lang="scss">
-
 #content {
   color: #2c3e50;
   // text-align: center;
   width: 100%;
   position: absolute;
   height: 100%;
-  left: 100px;  
+  left: 100px;
   max-height: calc(100% - 20px);
 }
 
