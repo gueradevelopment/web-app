@@ -12,7 +12,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">To-Do</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in toDoTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -22,7 +22,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">Doing</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in doingTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -32,7 +32,7 @@
                     <v-layout column justify-start fill-height align-start>
                         <h2 class="mx-0 pa-2">Done</h2>
                         <div class="column-container mx-0 px-2 py-4">
-                            <v-layout row align-start justify-center v-for="task in tasks" :key="task.id">
+                            <v-layout row align-start justify-center v-for="task in doneTasks" :key="task.id">
                                 <Task :id="task.id" :board-id="boardId"/>
                             </v-layout>
                         </div>
@@ -81,6 +81,18 @@
 
         get tasks() {
             return this.$store.getters["task/tasks"](this.id);
+        }
+
+        get toDoTasks() {
+            return this.tasks.filter((val: any) => val.status == "To-Do");
+        }
+
+        get doingTasks() {
+            return this.tasks.filter((val: any) => val.status == "Doing");
+        }
+
+        get doneTasks() {
+            return this.tasks.filter((val: any) => val.status == "Done");
         }
 
         newTask() {
