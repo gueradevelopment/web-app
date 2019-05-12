@@ -24,7 +24,7 @@ export default {
             "title": "Clean another room",
             "description": "Get some nice soap",
             "shortDescription": "",
-            "status": "To-Do"
+            "status": "Done"
         },
         {
             "boardId": 1,
@@ -32,7 +32,7 @@ export default {
             "title": "Do my homework",
             "description": "Get some nice soap",
             "shortDescription": "",
-            "status": "To-Do"
+            "status": "Doing"
         },
         {
             "boardId": 1,
