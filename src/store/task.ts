@@ -14,6 +14,7 @@ export default {
         createTask: function ({ state, commit }: { state: any, commit: any }, task: any) {
             task.id = state.tasks.length;
             task.shortDescription = "";
+            task.status = "To-Do";
             commit("add", task);
         }
     },
