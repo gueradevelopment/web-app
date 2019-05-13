@@ -13,7 +13,7 @@
                   ref="titleInput"
                   type="text"
                   class="display-2"
-                  v-model="currentTask.title"
+                  v-model="title"
                   placeholder="Title"
                 />
               </v-flex>
@@ -27,12 +27,26 @@
               <v-icon large color="black">account_circle</v-icon>
               <span class="ml-2 headline font-weight-light">El Guera</span>
             </v-layout>
-            <v-layout row class="mt-4 subheading editable">
+            <v-layout v-if="type == null">
+              <v-layout align-center justify-center row class="mt-4">
+                <v-btn @click="type = 'check'" x-large flat fab color="#4D4D4D">
+                  <v-icon x-large color="#4D4D4D">check_box</v-icon>
+                </v-btn>
+                <v-btn @click="type = 'task'" x-large flat fab color="#4D4D4D">
+                  <v-icon x-large color="#4D4D4D">create</v-icon>
+                </v-btn>
+              </v-layout>
+            </v-layout>
+            <v-layout
+              v-else-if="type == 'task'"
+              row
+              class="mt-4 subheading editable"
+            >
               <v-flex 12 class="editing">
                 <textarea
                   id="description-input"
                   class="pa-2"
-                  v-model="currentTask.description"
+                  v-model="description"
                   rows="5"
                   placeholder="Description"
                 ></textarea>
@@ -48,7 +62,14 @@
                 />
             </v-layout> -->
             <v-layout row class="mt-5">
-              <v-btn @click="createTask" block depressed large color="#A7E2D2">
+              <v-btn
+                @click="createTask"
+                block
+                depressed
+                large
+                color="#A7E2D2"
+                :disabled="title.length == 0 || type == null"
+              >
                 Create
               </v-btn>
             </v-layout>
@@ -71,17 +92,25 @@ export default class TaskDetail extends Vue {
   @Prop({ required: true }) boardId!: number;
   private status: string[] = ['To-Do', 'Doing', 'Done'];
 
+  private type: any = null;
+
+  private title: string = '';
+  private description: string = '';
+
   constructor() {
     super();
+    this.type = null;
   }
 
   createTask() {
-    console.log('Creating task', this.currentTask.title);
+    console.log('Creating task', this.title);
     const task = {
-      title: this.currentTask.title,
-      description: this.currentTask.description,
+      title: this.title,
+      description: this.description,
       boardId: this.boardId,
     };
+    this.type = null;
+    this.title = '';
     this.$store.dispatch('task/createTask', task);
     this.closeModal();
   }
@@ -114,7 +143,11 @@ export default class TaskDetail extends Vue {
   }
 
   @Emit('closed-modal')
-  closeModal() {}
+  closeModal() {
+    this.type = null;
+    this.title = '';
+    this.description = '';
+  }
 }
 </script>
 
