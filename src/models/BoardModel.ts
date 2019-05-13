@@ -10,4 +10,5 @@ export interface Task {
   description?: string;
   shortDescription: string;
   boardId: number;
+  status: string;
 }

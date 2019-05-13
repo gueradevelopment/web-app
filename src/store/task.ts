@@ -24,7 +24,6 @@ export default {
       { state, commit }: { state: any; commit: any },
       updatedTask: any
     ) {
-      console.log(updatedTask);
       commit('updateTask', updatedTask);
     },
   },
@@ -36,10 +35,12 @@ export default {
       state.tasks = [...state.tasks, task];
     },
     updateTask: function(state: any, updatedTask: any) {
-      state.tasks = [
-        ...state.tasks.filter((task: any) => task.id !== updatedTask.id),
-        updatedTask,
-      ];
+      state.tasks.findIndex((element: any) => element.id == updatedTask.id);
+      state.tasks.splice(updatedTask.id, 1, updatedTask);
+      // state.tasks = [
+      //   ...state.tasks.filter((task: any) => task.id !== updatedTask.id),
+      //   updatedTask,
+      // ];
     },
   },
   getters: {

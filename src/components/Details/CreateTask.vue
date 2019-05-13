@@ -102,8 +102,6 @@ export default class TaskDetail extends Vue {
 
   triggerTitleFocus() {
     $('#title-input').focus();
-    console.log(this.$refs.titleInput);
-    // this.$refs.titleInput.focus();
   }
 
   @Watch('editingDescription')

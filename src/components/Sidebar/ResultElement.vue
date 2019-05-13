@@ -45,7 +45,6 @@ export default class ResultElement extends Vue {
   }
 
   goToBoard(id: any) {
-    console.log('Clicked');
     this.$router.push(`/board/${id}`);
   }
 }

@@ -6,8 +6,10 @@ export default {
     boards: [],
   },
   actions: {
-    getBoards: function({ commit }: { commit: any }) {
-      commit('setBoards', Data.boards);
+    getBoards: function({ state, commit }: { state: any; commit: any }) {
+      if (state.boards.length == 0) {
+        commit('setBoards', Data.boards);
+      }
     },
   },
   mutations: {

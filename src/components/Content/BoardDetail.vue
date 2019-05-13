@@ -132,7 +132,7 @@ export default class BoardDetail extends Vue {
 h1 {
   color: #4d4d4d;
 }
-<<<<<<< head h2 {
+h2 {
   color: rgba(77, 77, 77, 0.6);
   font-style: italic;
 }
@@ -158,33 +158,7 @@ h1 {
   width: 95%;
 }
 
-======= h2 {
-  color: rgba(77, 77, 77, 0.6);
-  font-style: italic;
-}
-
-.border-top {
-  display: flex;
-  flex-flow: row;
-  justify-content: flex-start;
-  padding: 10px;
-  border-top: 2px solid gray;
-  width: 100%;
-  height: 100%;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
-
-.column-container {
-  background-color: rgba(77, 77, 77, 0.05);
-  // border: 1px solid gray;
-  border-radius: 10px;
-  height: 100%;
-  overflow-y: scroll;
-  width: 95%;
-}
-
->>>>>>>master .border-right  {
+.border-right  {
   display: flex;
   border-right: 2px solid gray !important;
   border-right-style: dotted !important;
