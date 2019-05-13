@@ -132,7 +132,6 @@ export default class BoardDetail extends Vue {
 h1 {
   color: #4d4d4d;
 }
-
 h2 {
   color: rgba(77, 77, 77, 0.6);
   font-style: italic;

@@ -20,6 +20,12 @@ export default {
       task.status = 'To-Do';
       commit('add', task);
     },
+    updateTask: function(
+      { state, commit }: { state: any; commit: any },
+      updatedTask: any
+    ) {
+      commit('updateTask', updatedTask);
+    },
   },
   mutations: {
     setTasks: function(state: any, tasks: any) {
@@ -27,6 +33,14 @@ export default {
     },
     add: function(state: any, task: any) {
       state.tasks = [...state.tasks, task];
+    },
+    updateTask: function(state: any, updatedTask: any) {
+      state.tasks.findIndex((element: any) => element.id == updatedTask.id);
+      state.tasks.splice(updatedTask.id, 1, updatedTask);
+      // state.tasks = [
+      //   ...state.tasks.filter((task: any) => task.id !== updatedTask.id),
+      //   updatedTask,
+      // ];
     },
   },
   getters: {

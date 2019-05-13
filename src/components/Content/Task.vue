@@ -6,7 +6,7 @@
     flat
   >
     <v-card-title primary-title>
-      <div class="headline">{{ currentTask.title }}</div>
+      <div class="headline">{{ taskDetail.title }}</div>
     </v-card-title>
     <v-card-actions class="pl-3">
       <v-icon color="white">account_circle</v-icon>
@@ -14,7 +14,7 @@
     </v-card-actions>
     <TaskDetail
       v-on:closed-modal="closeModal"
-      :currentTask="currentTask"
+      :currentTask="taskDetail"
       :dialog="dialog"
     />
   </v-card>
@@ -39,12 +39,6 @@ export default class Task extends Vue {
   @Prop() private description!: string;
 
   private dialog: boolean = false;
-  currentTask: TaskInterface = {
-    id: 0,
-    title: '',
-    description: '',
-    shortDescription: '',
-  };
 
   constructor() {
     super();
@@ -52,19 +46,6 @@ export default class Task extends Vue {
 
   async created() {
     this.$store.dispatch('task/getTasks');
-
-    this.currentTask.id =
-      this.taskDetail.id != undefined ? this.taskDetail.id : 0;
-    this.currentTask.title =
-      this.taskDetail.title != undefined ? this.taskDetail.title : '';
-    this.currentTask.description =
-      this.taskDetail.description != undefined
-        ? this.taskDetail.description
-        : '';
-    this.currentTask.shortDescription =
-      this.taskDetail.shortDescription != undefined
-        ? this.taskDetail.shortDescription
-        : '';
   }
 
   get taskDetail() {

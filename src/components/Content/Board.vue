@@ -48,7 +48,6 @@ export default class Board extends Vue {
 
   async created() {
     this.$store.dispatch('task/getTasks');
-    console.log(this.tasks);
   }
 
   get tasks() {

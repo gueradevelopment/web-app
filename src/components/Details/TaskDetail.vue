@@ -17,8 +17,8 @@
                   v-if="!editingTitle"
                   @click="editingTitle = true"
                   class="display-2"
-                  >{{ currentTask.title }}</span
-                >
+                  >{{ editingTitleText ? editingTitleText : currentTask.title }}
+                </span>
                 <div v-else>
                   <input
                     ref="titleInput"
@@ -26,7 +26,7 @@
                     @focusout="cancelEdit('title')"
                     @keyup.esc="cancelEdit('title')"
                     class="display-2"
-                    v-model="currentTask.title"
+                    v-model="editingTitleText"
                     placeholder="Title"
                   />
                 </div>
@@ -53,7 +53,11 @@
                   v-if="!editingDescription"
                   @click="editingDescription = true"
                 >
-                  {{ currentTask.description }}
+                  {{
+                    editingDescriptionText
+                      ? editingDescriptionText
+                      : currentTask.description
+                  }}
                 </div>
                 <div v-else>
                   <textarea
@@ -62,7 +66,7 @@
                     class="pa-2"
                     @focusout="cancelEdit('description')"
                     @keyup.esc="cancelEdit('description')"
-                    v-model="currentTask.description"
+                    v-model="editingDescriptionText"
                     rows="5"
                     placeholder="Description"
                   ></textarea>
@@ -72,19 +76,30 @@
             <v-layout row class="mt-5">
               <v-select
                 :items="status"
+                :value="currentTask.status"
                 solo
                 flat
                 background-color="#A7E2D2"
                 placeholder="Status"
+                @input="statusChange"
               />
             </v-layout>
             <v-layout row class="mt-5">
               <v-btn
-                @click="console.log('update')"
+                @click="updateTask()"
                 block
                 depressed
                 large
                 color="#A7E2D2"
+                :disabled="
+                  this.editingDescription ||
+                    this.editingTitle ||
+                    !(
+                      this.editingDescriptionText ||
+                      this.editingTitleText ||
+                      this.currentTask.status != this.newTaskStatus
+                    )
+                "
               >
                 Update
               </v-btn>
@@ -107,10 +122,14 @@ export default class TaskDetail extends Vue {
   @Prop({ required: true }) dialog!: boolean;
   private status: string[] = ['To-Do', 'Doing', 'Done'];
   private editingTitle: boolean = false;
+  private editingTitleText: string = '';
   private editingDescription: boolean = false;
+  private editingDescriptionText: string = '';
+  private newTaskStatus: string = '';
 
   constructor() {
     super();
+    this.newTaskStatus = this.currentTask.status;
   }
 
   cancelEdit(section: string) {
@@ -131,13 +150,30 @@ export default class TaskDetail extends Vue {
     }
   }
 
+  statusChange(value: any) {
+    this.newTaskStatus = value;
+  }
+
   updateTask() {
-    console.log('Updating task', this.currentTask.id);
+    this.editingTitleText = this.editingTitleText || this.currentTask.title;
+    this.editingDescriptionText =
+      this.editingDescriptionText || this.currentTask.description!;
+    this.$store.dispatch('task/updateTask', {
+      ...this.currentTask,
+      title: this.editingTitleText,
+      description: this.editingDescriptionText,
+      status: this.newTaskStatus,
+    });
+    this.editingTitleText = '';
+    this.editingDescriptionText = '';
+    this.newTaskStatus = this.currentTask.status;
   }
 
   @Watch('dialog')
   onDialogChanged(val: string, oldVal: string) {
     if (!val) {
+      this.editingDescriptionText = '';
+      this.editingTitleText = '';
       this.closeModal();
     }
   }
@@ -151,8 +187,7 @@ export default class TaskDetail extends Vue {
 
   triggerTitleFocus() {
     $('#title-input').focus();
-    console.log(this.$refs.titleInput);
-    // this.$refs.titleInput.focus();
+    this.editingTitleText = this.editingTitleText || this.currentTask.title;
   }
 
   @Watch('editingDescription')
@@ -162,6 +197,8 @@ export default class TaskDetail extends Vue {
 
   triggerDescriptionFocus() {
     $('#description-input').focus();
+    this.editingDescriptionText =
+      this.editingDescriptionText || this.currentTask.description!;
   }
 
   @Emit('closed-modal')
