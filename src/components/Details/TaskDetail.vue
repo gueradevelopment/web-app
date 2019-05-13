@@ -89,10 +89,9 @@
                     ></v-checkbox>
                     <v-btn
                       @click="deleteMiniTask(task.id)"
-                      large
                       flat
                       icon
-                      small
+                      large
                       color="#4D4D4D"
                     >
                       <v-icon small color="#4D4D4D">delete</v-icon>
@@ -221,6 +220,7 @@ export default class TaskDetail extends Vue {
     });
     this.editingTitleText = '';
     this.editingDescriptionText = '';
+    this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
     // this.newTaskStatus = this.currentTask.status;
   }
 
