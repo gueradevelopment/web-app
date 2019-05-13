@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="400">
+  <v-dialog v-model="dialog" width="500">
     <div class="task-detail">
       <v-card class="rounded-card task-detail">
         <v-card-title class="headline">
@@ -41,7 +41,11 @@
               <v-icon large color="black">account_circle</v-icon>
               <span class="ml-2 headline font-weight-light">El Guera</span>
             </v-layout>
-            <v-layout row class="mt-4 subheading editable">
+            <v-layout
+              v-if="currentTask.description != null"
+              row
+              class="mt-4 subheading editable"
+            >
               <v-flex
                 12
                 :class="{
@@ -73,10 +77,41 @@
                 </div>
               </v-flex>
             </v-layout>
+            <v-layout v-else row class="mt-4 subheading editable">
+              <v-container fluid>
+                <div v-for="task of newMiniTasks" :key="task.id">
+                  <v-layout align-start justify-space-between row>
+                    <v-checkbox
+                      v-model="task.status"
+                      :label="task.title"
+                      true-value="Done"
+                      false-value="To-Do"
+                    ></v-checkbox>
+                    <v-btn
+                      @click="deleteMiniTask(task.id)"
+                      large
+                      flat
+                      icon
+                      small
+                      color="#4D4D4D"
+                    >
+                      <v-icon small color="#4D4D4D">delete</v-icon>
+                    </v-btn>
+                  </v-layout>
+                </div>
+                <v-text-field
+                  v-model="newMiniTaskTitle"
+                  placeholder="New task"
+                  outline
+                  single-line
+                  @change="newMiniTask"
+                ></v-text-field>
+              </v-container>
+            </v-layout>
             <v-layout row class="mt-5">
               <v-select
                 :items="status"
-                :value="currentTask.status"
+                :value="newTaskStatus"
                 solo
                 flat
                 background-color="#A7E2D2"
@@ -97,7 +132,8 @@
                     !(
                       this.editingDescriptionText ||
                       this.editingTitleText ||
-                      this.currentTask.status != this.newTaskStatus
+                      this.currentTask.status != this.newTaskStatus ||
+                      !compareMiniTasks
                     )
                 "
               >
@@ -126,6 +162,7 @@
 import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
 import { Task } from '@/models/BoardModel';
 import $ from 'jquery';
+import _ from 'lodash';
 
 @Component
 export default class TaskDetail extends Vue {
@@ -137,10 +174,14 @@ export default class TaskDetail extends Vue {
   private editingDescription: boolean = false;
   private editingDescriptionText: string = '';
   private newTaskStatus: string = '';
+  private newMiniTasks: any[] = [];
+  private newMiniTaskTitle: string = '';
+  private deletedMiniTasks: any[] = [];
 
   constructor() {
     super();
     this.newTaskStatus = this.currentTask.status;
+    this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
   }
 
   cancelEdit(section: string) {
@@ -174,15 +215,49 @@ export default class TaskDetail extends Vue {
       title: this.editingTitleText,
       description: this.editingDescriptionText,
       status: this.newTaskStatus,
+      miniTasks: !this.compareMiniTasks ? this.newMiniTasks : null,
+      deletedMiniTasks:
+        this.deletedMiniTasks.length > 0 ? this.deletedMiniTasks : null,
     });
     this.editingTitleText = '';
     this.editingDescriptionText = '';
-    this.newTaskStatus = this.currentTask.status;
+    // this.newTaskStatus = this.currentTask.status;
+  }
+
+  newMiniTask() {
+    this.newMiniTasks = [
+      ...this.newMiniTasks,
+      {
+        id: this.maxMiniTaskIndex,
+        title: this.newMiniTaskTitle,
+        checklistId: this.currentTask.id,
+        status: 'To-Do',
+        new: true,
+      },
+    ];
+    this.newMiniTaskTitle = '';
+  }
+
+  deleteMiniTask(miniTaskId: any) {
+    this.newMiniTasks = this.newMiniTasks.filter(val => val.id != miniTaskId);
+    this.deletedMiniTasks.push(miniTaskId);
   }
 
   deleteTask() {
-    this.$store.dispatch("task/deleteTask", this.currentTask.id);
-    this.closeModal()
+    this.$store.dispatch('task/deleteTask', this.currentTask.id);
+    this.closeModal();
+  }
+
+  get miniTasks() {
+    return this.$store.getters['task/miniTasks'](this.currentTask.id);
+  }
+
+  get compareMiniTasks() {
+    return _.isEqual(this.miniTasks, this.newMiniTasks);
+  }
+
+  get maxMiniTaskIndex() {
+    return this.$store.getters['task/maxMiniTaskIndex'];
   }
 
   @Watch('dialog')
@@ -190,6 +265,8 @@ export default class TaskDetail extends Vue {
     if (!val) {
       this.editingDescriptionText = '';
       this.editingTitleText = '';
+      this.newTaskStatus = this.currentTask.status;
+      this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
       this.closeModal();
     }
   }
