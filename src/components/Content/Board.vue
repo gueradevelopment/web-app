@@ -1,9 +1,14 @@
 <template>
   <div class="board">
     <div id="title">
-      <router-link :to="`/board/${id}`"
-        ><span>{{ title }}</span></router-link
-      >
+      <v-layout align-start justify-space-between row>
+        <router-link :to="`/board/${id}`"
+          ><span>{{ title }}</span></router-link
+        >
+        <v-btn @click="deleteBoard" large flat icon color="#4D4D4D">
+            <v-icon medium color="#4D4D4D">delete</v-icon>
+          </v-btn>
+      </v-layout>
     </div>
     <v-layout row align-center class="rounded-border">
       <v-flex xs3 v-for="task in tasks" :key="task.id">
@@ -69,6 +74,10 @@ export default class Board extends Vue {
 
   closeModal() {
     this.createDialog = false;
+  }
+
+  deleteBoard() {
+    this.$store.dispatch("board/deleteBoard", this.id);
   }
 }
 </script>

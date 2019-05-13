@@ -104,6 +104,17 @@
                 Update
               </v-btn>
             </v-layout>
+            <v-layout row>
+              <v-btn
+                @click="deleteTask()"
+                block
+                depressed
+                large
+                color="#f95e66"
+              >
+                Delete
+              </v-btn>
+            </v-layout>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -167,6 +178,11 @@ export default class TaskDetail extends Vue {
     this.editingTitleText = '';
     this.editingDescriptionText = '';
     this.newTaskStatus = this.currentTask.status;
+  }
+
+  deleteTask() {
+    this.$store.dispatch("task/deleteTask", this.currentTask.id);
+    this.closeModal()
   }
 
   @Watch('dialog')

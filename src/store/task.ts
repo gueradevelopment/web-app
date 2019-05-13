@@ -6,26 +6,23 @@ export default {
     tasks: Data.tasks,
   },
   actions: {
-    getTasks: function({ state, commit }: { state: any; commit: any }) {
+    getTasks: function({ state, commit }: { state: any, commit: any }) {
       if (state.tasks.length == 0) {
         commit('setTasks', Data.tasks);
       }
     },
-    createTask: function(
-      { state, commit }: { state: any; commit: any },
-      task: any
-    ) {
+    createTask: function({ state, commit }: { state: any, commit: any }, task: any) {
       task.id = state.tasks.length;
       task.shortDescription = '';
       task.status = 'To-Do';
       commit('add', task);
     },
-    updateTask: function(
-      { state, commit }: { state: any; commit: any },
-      updatedTask: any
-    ) {
+    updateTask: function({ state, commit }: { state: any, commit: any }, updatedTask: any) {
       commit('updateTask', updatedTask);
     },
+    deleteTask: function({ commit }: {state:any, commit: any}, taskId: any) {
+      commit('deleteTask', taskId);
+    }
   },
   mutations: {
     setTasks: function(state: any, tasks: any) {
@@ -37,11 +34,10 @@ export default {
     updateTask: function(state: any, updatedTask: any) {
       state.tasks.findIndex((element: any) => element.id == updatedTask.id);
       state.tasks.splice(updatedTask.id, 1, updatedTask);
-      // state.tasks = [
-      //   ...state.tasks.filter((task: any) => task.id !== updatedTask.id),
-      //   updatedTask,
-      // ];
     },
+    deleteTask: function(state: any, taskId: any) {
+      state.tasks = state.tasks.filter((val: any) => val.id != taskId);
+    }
   },
   getters: {
     tasks: function(state: any) {

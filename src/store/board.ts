@@ -6,16 +6,29 @@ export default {
     boards: [],
   },
   actions: {
-    getBoards: function({ state, commit }: { state: any; commit: any }) {
+    getBoards: function({ state, commit }: { state: any, commit: any }) {
       if (state.boards.length == 0) {
         commit('setBoards', Data.boards);
       }
     },
+    createBoard: function({ state, commit }: { state: any, commit: any }, board: any) {
+      board.id = state.boards.length;
+      commit('create', board);
+    },
+    deleteBoard: function({ commit }: { commit: any }, boardId: any) {
+      commit('deleteBoard', boardId);
+    }
   },
   mutations: {
     setBoards: function(state: any, boards: any) {
       state.boards = boards;
     },
+    create: function(state: any, board: any) {
+      state.boards = [...state.boards, board];
+    },
+    deleteBoard: function(state: any, boardId: any) {
+      state.boards = state.boards.filter((val: any) => val.id != boardId);
+    }
   },
   getters: {
     boards: function(state: any) {
