@@ -17,6 +17,9 @@ export default {
     },
     deleteBoard: function({ commit }: { commit: any }, boardId: any) {
       commit('deleteBoard', boardId);
+    },
+    updateBoard: function({ commit }: { commit: any }, board: any) {
+      commit('updateBoard', board);
     }
   },
   mutations: {
@@ -28,6 +31,10 @@ export default {
     },
     deleteBoard: function(state: any, boardId: any) {
       state.boards = state.boards.filter((val: any) => val.id != boardId);
+    },
+    updateBoard: function(state: any, board: any) {
+      const i = state.boards.findIndex((val: any) => val.id == board.id);
+      state.boards.splice(i, 1, board);
     }
   },
   getters: {

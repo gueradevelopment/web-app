@@ -3,9 +3,14 @@
     <v-layout column>
       <v-layout align-start justify-space-between row>
         <h1>{{ title }}</h1>
-        <v-btn @click="newTask" large flat icon color="#4D4D4D">
-          <v-icon medium color="#4D4D4D">add</v-icon>
-        </v-btn>
+        <div>
+          <v-btn @click="updateBoard" large flat icon color="#4D4D4D">
+            <v-icon medium color="#4D4D4D">create</v-icon>
+          </v-btn>
+          <v-btn @click="newTask" large flat icon color="#4D4D4D">
+            <v-icon medium color="#4D4D4D">add</v-icon>
+          </v-btn>
+        </div>
       </v-layout>
       <v-layout row align-start fill-height class="border-top">
         <v-flex 4 fill-height>
@@ -64,6 +69,12 @@
       :createDialog="createDialog"
       :boardId="boardId"
     />
+    <UpdateBoard
+      :id="boardId"
+      :title="title"
+      :updateBoardDialog="updateBoardDialog"
+      v-on:closed-modal="closeUpdateModal"
+    />
   </v-container>
 </template>
 
@@ -71,18 +82,21 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Task from '@/components/Content/Task.vue';
 import CreateTask from '@/components/Details/CreateTask.vue';
+import UpdateBoard from '@/components/Details/EditBoard.vue';
 import Data from '@/data';
 
 @Component({
   components: {
     Task,
     CreateTask,
+    UpdateBoard
   },
 })
 export default class BoardDetail extends Vue {
   @Prop() private id!: string;
 
   private createDialog: boolean = false;
+  private updateBoardDialog: boolean = false;
 
   created() {
     this.$store.dispatch('board/getBoards');
@@ -118,12 +132,19 @@ export default class BoardDetail extends Vue {
   }
 
   newTask() {
-    console.log(`New task from board ${this.id}`);
     this.createDialog = true;
   }
 
   closeModal() {
     this.createDialog = false;
+  }
+
+  updateBoard() {
+    this.updateBoardDialog = true;
+  }
+
+  closeUpdateModal() {
+    this.updateBoardDialog = false;
   }
 }
 </script>

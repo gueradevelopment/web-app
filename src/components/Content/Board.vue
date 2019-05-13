@@ -68,7 +68,6 @@ export default class Board extends Vue {
   }
 
   newTask() {
-    console.log(`New task from board ${this.id}`);
     this.createDialog = true;
   }
 
