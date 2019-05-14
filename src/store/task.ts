@@ -1,58 +1,108 @@
-import Data from '../data';
-import { getTasksRequest, createTaskRequest } from '../requests/taskRequests';
+import {
+  getTasksRequest,
+  getMinitasksRequest,
+  createTaskRequest,
+  deleteTaskRequest,
+  updateMinitaskRequest,
+  createMinitaskRequest,
+  deleteMinitasksRequest,
+} from '../requests/taskRequests';
 
 export default {
   namespaced: true,
   state: {
-    tasks: Data.tasks,
-    miniTasks: Data.miniTasks,
+    tasks: [],
+    miniTasks: [],
   },
   actions: {
     getTasks: function({ state, commit }: { state: any; commit: any }) {
       if (state.tasks.length == 0) {
         getTasksRequest().then((tasks: any) => commit('setTasks', tasks));
+        getMinitasksRequest().then((minitasks: any) =>
+          commit('setMiniTasks', minitasks)
+        );
       }
     },
     createTask: function({ commit }: { commit: any }, newTask: any) {
       createTaskRequest(newTask).then((task: any) => commit('add', task));
     },
     updateTask: function(
-      { state, commit, dispatch }: { state: any; commit: any; dispatch: any },
+      { commit, dispatch }: { commit: any; dispatch: any },
       updatedTask: any
     ) {
-      if (updatedTask.description == null && updatedTask.miniTasks != null) {
+      // Update and create minitasks
+      if (
+        (!updatedTask.description || updatedTask.description == null) &&
+        updatedTask.miniTasks != null
+      ) {
         dispatch('updateMiniTasks', {
           miniTasks: updatedTask.miniTasks,
           checklistId: updatedTask.id,
         });
       }
+      // Delete minitasks
       if (
         updatedTask.deletedMiniTasks != null &&
         updatedTask.deletedMiniTasks.length > 0
       ) {
-        commit('deleteMiniTasks', updatedTask.deleteMiniTasks);
+        updatedTask.deletedMiniTasks.forEach((deleteMinitask: any) => {
+          deleteMinitasksRequest(deleteMinitask);
+        });
+        commit('deleteMiniTasks', updatedTask.deletedMiniTasks);
       }
       delete updatedTask.miniTasks;
+      // Update task in general
       commit('updateTask', updatedTask);
     },
     updateMiniTasks: function(
       { commit }: { commit: any },
-      { miniTasks, checklistId }: { miniTasks: any; checklistId: any }
+      { miniTasks }: { miniTasks: any }
     ) {
-      const updateMiniTasks = miniTasks.filter((val: any) => !val.new);
-      const newTasks = miniTasks
+      const updateMinitasks = miniTasks.filter((val: any) => !val.new);
+      if (updateMinitasks.length > 0) {
+        var forEachPromise = new Promise((resolve, reject) => {
+          updateMinitasks.forEach(
+            (updateMinitask: any, index: number, array: any) => {
+              updateMinitaskRequest(updateMinitask).then(() => {
+                if (index === array.length - 1) resolve();
+              });
+            }
+          );
+        });
+        forEachPromise.then(() =>
+          getMinitasksRequest().then((minitasks: any) =>
+            commit('setMiniTasks', minitasks)
+          )
+        );
+      }
+
+      const newMinitasks = miniTasks
         .filter((val: any) => val.new)
         .map((val: any) => {
           delete val.new;
           return val;
         });
-      commit('updateMiniTasks', { miniTasks: updateMiniTasks, checklistId });
-      if (newTasks.length > 0) {
-        commit('addMiniTasks', newTasks);
+      if (newMinitasks.length > 0) {
+        let createdMinitasks: any = [];
+        var forEachPromise = new Promise((resolve, reject) => {
+          newMinitasks.forEach(
+            (newMinitask: any, index: number, array: any) => {
+              createMinitaskRequest(newMinitask).then((postedNewTask: any) => {
+                createdMinitasks.push(postedNewTask);
+                if (index === array.length - 1) resolve();
+              });
+            }
+          );
+        });
+        forEachPromise.then(() =>
+          getMinitasksRequest().then((minitasks: any) =>
+            commit('setMiniTasks', minitasks)
+          )
+        );
       }
     },
     deleteTask: function({ commit }: { state: any; commit: any }, taskId: any) {
-      commit('deleteTask', taskId);
+      deleteTaskRequest(taskId).then(() => commit('deleteTask', taskId));
     },
   },
   mutations: {
@@ -77,6 +127,9 @@ export default {
         (val: any) => val.checklistId != checklistId
       );
       state.miniTasks = [...state.miniTasks, ...miniTasks];
+    },
+    setMiniTasks: function(state: any, miniTasks: any) {
+      state.miniTasks = [...miniTasks];
     },
     addMiniTasks: function(state: any, miniTasks: any) {
       state.miniTasks = [...state.miniTasks, ...miniTasks];

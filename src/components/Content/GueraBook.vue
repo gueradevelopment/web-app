@@ -38,6 +38,7 @@ export default class GueraBook extends Vue {
   private createBoardDialog: boolean = false;
 
   async created() {
+    this.$store.dispatch('board/createOrSetGuerabook');
     this.$store.dispatch('board/getBoards');
   }
 

@@ -1,5 +1,5 @@
-import Data from '../data';
 import {
+  getGuerabooksRequest,
   getBoardsRequest,
   createBoardRequest,
   deleteSingleBoardRequest,
@@ -10,15 +10,32 @@ export default {
   namespaced: true,
   state: {
     boards: [],
+    guerabookId: null,
   },
   actions: {
+    createOrSetGuerabook: function({
+      state,
+      commit,
+    }: {
+      state: any;
+      commit: any;
+    }) {
+      if (!state.guerabookId) {
+        getGuerabooksRequest().then(guerabookId =>
+          commit('setGuerabookId', guerabookId)
+        );
+      }
+    },
     getBoards: function({ state, commit }: { state: any; commit: any }) {
       if (state.boards.length == 0) {
         getBoardsRequest().then(boards => commit('setBoards', boards));
       }
     },
-    createBoard: function({ commit }: { commit: any }, board: any) {
-      createBoardRequest(board.title).then(postedBoard =>
+    createBoard: function(
+      { state, commit }: { state: any; commit: any },
+      board: any
+    ) {
+      createBoardRequest(board.title, state.guerabookId).then(postedBoard =>
         commit('create', postedBoard)
       );
     },
@@ -32,6 +49,9 @@ export default {
     },
   },
   mutations: {
+    setGuerabookId: function(state: any, guerabookId: any) {
+      state.guerabookId = guerabookId;
+    },
     setBoards: function(state: any, boards: any) {
       state.boards = boards;
     },

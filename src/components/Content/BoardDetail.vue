@@ -99,6 +99,7 @@ export default class BoardDetail extends Vue {
   private updateBoardDialog: boolean = false;
 
   created() {
+    this.$store.dispatch('board/createOrSetGuerabook');
     this.$store.dispatch('board/getBoards');
     this.$store.dispatch('task/getTasks');
   }
