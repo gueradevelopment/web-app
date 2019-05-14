@@ -21,25 +21,6 @@
                 Login with Google
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                @click="loginGoogle"
-                class="mb-3 mt-3"
-                outline
-                color="indigo"
-              >
-                <img class="icon" src="@/assets/github.svg" />
-                Login with Github
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="loginGoogle"
-                class="mb-3 mt-3"
-                outline
-                color="indigo"
-              >
-                <img class="icon" src="@/assets/bitbucket.png" />
-                Login with Bitbucket
-              </v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -66,14 +47,6 @@ export default class Login extends Vue {
 
   loginGoogle() {
     window.location.href = `${process.env.VUE_APP_AUTH_HOST}/auth/google/login`;
-  }
-
-  loginGithub() {
-    window.location.href = `http://localhost:3000/auth/google/login`;
-  }
-
-  loginBitbucket() {
-    window.location.href = `http://localhost:3000/auth/google/login`;
   }
 }
 </script>
