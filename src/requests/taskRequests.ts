@@ -21,41 +21,29 @@ function getCookieEmail() {
   return '';
 }
 
-function getBoardsRequest() {
+function getTasksRequest() {
   const email = getCookieEmail();
   return instance
-    .get(`/boards/?userId=${email}`)
+    .get(`/checklists/?userId=${email}`)
     .then((response: any) => response.data[0]);
 }
 
-function getSingleBoardRequest(id: string) {
-  return instance.get(`/boards/${id}`).then(response => response.data);
+function getSingleTaskRequest(id: string) {
+  return instance.get(`/tasks/${id}`).then(response => response.data);
 }
 
-function deleteSingleBoardRequest(id: string) {
-  return instance.delete(`/boards/${id}`).then(response => response.data);
-}
-
-function createBoardRequest(title: string) {
+async function createTaskRequest(task: any) {
   const email = getCookieEmail();
   return instance
-    .post(`/boards/`, {
-      title,
+    .post(`/tasks/`, {
+      ...task,
+      shortDescription: '',
+      status: 'To-Do',
       userId: email,
       isTeamContext: false,
     })
     .then(response => (response.status === 200 ? response.data.id : ''))
-    .then(postedId => getSingleBoardRequest(postedId));
+    .then(postedId => getSingleTaskRequest(postedId));
 }
 
-function updateBoardRequest(newBoard: any) {
-  const email = getCookieEmail();
-  return instance.put(`/boards/`, { ...newBoard, email });
-}
-
-export {
-  getBoardsRequest,
-  createBoardRequest,
-  deleteSingleBoardRequest,
-  updateBoardRequest,
-};
+export { getTasksRequest, createTaskRequest };

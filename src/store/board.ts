@@ -1,4 +1,10 @@
 import Data from '../data';
+import {
+  getBoardsRequest,
+  createBoardRequest,
+  deleteSingleBoardRequest,
+  updateBoardRequest,
+} from '../requests/boardRequests';
 
 export default {
   namespaced: true,
@@ -8,18 +14,18 @@ export default {
   actions: {
     getBoards: function({ state, commit }: { state: any; commit: any }) {
       if (state.boards.length == 0) {
-        commit('setBoards', Data.boards);
+        getBoardsRequest().then(boards => commit('setBoards', boards));
       }
     },
-    createBoard: function(
-      { state, commit }: { state: any; commit: any },
-      board: any
-    ) {
-      board.id = state.boards.length;
-      commit('create', board);
+    createBoard: function({ commit }: { commit: any }, board: any) {
+      createBoardRequest(board.title).then(postedBoard =>
+        commit('create', postedBoard)
+      );
     },
     deleteBoard: function({ commit }: { commit: any }, boardId: any) {
-      commit('deleteBoard', boardId);
+      deleteSingleBoardRequest(boardId).then(() =>
+        commit('deleteBoard', boardId)
+      );
     },
     updateBoard: function({ commit }: { commit: any }, board: any) {
       commit('updateBoard', board);
@@ -36,8 +42,10 @@ export default {
       state.boards = state.boards.filter((val: any) => val.id != boardId);
     },
     updateBoard: function(state: any, board: any) {
-      const i = state.boards.findIndex((val: any) => val.id == board.id);
-      state.boards.splice(i, 1, board);
+      updateBoardRequest(board).then(() => {
+        const i = state.boards.findIndex((val: any) => val.id == board.id);
+        state.boards.splice(i, 1, board);
+      });
     },
   },
   getters: {

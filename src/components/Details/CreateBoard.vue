@@ -43,7 +43,7 @@ import $ from 'jquery';
 @Component
 export default class CreateBoard extends Vue {
   @Prop({ required: true }) createBoardDialog!: boolean;
-  private title: string = "";
+  private title: string = '';
 
   constructor() {
     super();
@@ -52,7 +52,7 @@ export default class CreateBoard extends Vue {
   createBoard() {
     console.log('Creating board', this.title);
     const board = {
-      title: this.title
+      title: this.title,
     };
     this.$store.dispatch('board/createBoard', board);
     this.closeModal();

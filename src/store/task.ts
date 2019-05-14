@@ -1,4 +1,5 @@
 import Data from '../data';
+import { getTasksRequest, createTaskRequest } from '../requests/taskRequests';
 
 export default {
   namespaced: true,
@@ -9,17 +10,11 @@ export default {
   actions: {
     getTasks: function({ state, commit }: { state: any; commit: any }) {
       if (state.tasks.length == 0) {
-        commit('setTasks', Data.tasks);
+        getTasksRequest().then((tasks: any) => commit('setTasks', tasks));
       }
     },
-    createTask: function(
-      { state, commit }: { state: any; commit: any },
-      task: any
-    ) {
-      task.id = state.tasks.length;
-      task.shortDescription = '';
-      task.status = 'To-Do';
-      commit('add', task);
+    createTask: function({ commit }: { commit: any }, newTask: any) {
+      createTaskRequest(newTask).then((task: any) => commit('add', task));
     },
     updateTask: function(
       { state, commit, dispatch }: { state: any; commit: any; dispatch: any },

@@ -43,9 +43,9 @@ import $ from 'jquery';
 @Component
 export default class EditBoard extends Vue {
   @Prop({ required: true }) updateBoardDialog!: boolean;
-  @Prop({ required: true }) title!: string;
+  @Prop({ required: true }) title!: string;
   @Prop({ required: true }) id!: any;
-  private newTitle: string = "";
+  private newTitle: string = '';
 
   constructor() {
     super();
@@ -55,7 +55,7 @@ export default class EditBoard extends Vue {
   updateBoard() {
     const board = {
       id: this.id,
-      title: this.newTitle
+      title: this.newTitle,
     };
     this.$store.dispatch('board/updateBoard', board);
     this.closeModal();

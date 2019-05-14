@@ -89,7 +89,7 @@ import Data from '@/data';
   components: {
     Task,
     CreateTask,
-    UpdateBoard
+    UpdateBoard,
   },
 })
 export default class BoardDetail extends Vue {

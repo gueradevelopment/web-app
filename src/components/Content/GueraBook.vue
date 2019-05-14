@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-layout
-      row
-    >
-      <v-btn
-        color="#A7E2D2"
-        depressed
-        @click="createBoard"
-      >
+    <v-layout row>
+      <v-btn color="#A7E2D2" depressed @click="createBoard">
         Create Board
       </v-btn>
     </v-layout>
@@ -23,7 +17,7 @@
     <CreateBoard
       v-on:closed-modal="closeModal"
       :createBoardDialog="createBoardDialog"
-      />
+    />
   </div>
 </template>
 
@@ -35,7 +29,7 @@ import CreateBoard from '@/components/Details/CreateBoard.vue';
 @Component({
   components: {
     Board,
-    CreateBoard
+    CreateBoard,
   },
 })
 export default class GueraBook extends Vue {
