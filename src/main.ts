@@ -7,8 +7,11 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
 import dotenv from 'dotenv';
+import VueCookies from 'vue-cookies-ts';
+
 dotenv.config();
 
+Vue.use(VueCookies);
 Vue.use(Vuetify);
 
 Vue.config.productionTip = false;

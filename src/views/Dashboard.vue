@@ -47,6 +47,13 @@ export default class Dashboard extends Vue {
       if (!res.status || res.status !== 200) {
         window.location.href = 'http://localhost:8080/#/login';
       }
+      res.json().then(data => {
+        var d = new Date();
+        d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+        var expires = 'expires=' + d.toUTCString();
+        document.cookie = 'email=' + data.Email + ';' + expires + ';path=/';
+        console.log(document.cookie);
+      });
     });
   }
 

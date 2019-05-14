@@ -72,6 +72,7 @@ export default class IconsBar extends Vue {
       mode: 'cors',
       credentials: 'include',
     }).then(res => {
+      document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
       window.location.href = 'http://localhost:8080/#/login';
     });
   }

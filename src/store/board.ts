@@ -6,12 +6,15 @@ export default {
     boards: [],
   },
   actions: {
-    getBoards: function({ state, commit }: { state: any, commit: any }) {
+    getBoards: function({ state, commit }: { state: any; commit: any }) {
       if (state.boards.length == 0) {
         commit('setBoards', Data.boards);
       }
     },
-    createBoard: function({ state, commit }: { state: any, commit: any }, board: any) {
+    createBoard: function(
+      { state, commit }: { state: any; commit: any },
+      board: any
+    ) {
       board.id = state.boards.length;
       commit('create', board);
     },
@@ -20,7 +23,7 @@ export default {
     },
     updateBoard: function({ commit }: { commit: any }, board: any) {
       commit('updateBoard', board);
-    }
+    },
   },
   mutations: {
     setBoards: function(state: any, boards: any) {
@@ -35,7 +38,7 @@ export default {
     updateBoard: function(state: any, board: any) {
       const i = state.boards.findIndex((val: any) => val.id == board.id);
       state.boards.splice(i, 1, board);
-    }
+    },
   },
   getters: {
     boards: function(state: any) {
