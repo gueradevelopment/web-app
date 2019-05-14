@@ -71,12 +71,12 @@ export default class Dashboard extends Vue {
 <style lang="scss">
 #content {
   color: #2c3e50;
-  // text-align: center;
   width: 100%;
   position: absolute;
   height: 100%;
   left: 100px;
   max-height: calc(100% - 20px);
+  overflow-y: scroll;
 }
 
 #content.sidebarActive {
