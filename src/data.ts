@@ -30,9 +30,7 @@ export default {
       boardId: 1,
       id: 2,
       title: 'Do my homework',
-      description: 'Get some nice soap',
-      shortDescription: '',
-      status: 'Doing',
+      status: 'To-Do',
     },
     {
       boardId: 1,
@@ -41,6 +39,20 @@ export default {
       description: 'Get some nice soap',
       shortDescription: '',
       status: 'To-Do',
+    },
+  ],
+  miniTasks: [
+    {
+      id: 0,
+      checklistId: 2,
+      title: 'Math homework',
+      status: 'To-Do',
+    },
+    {
+      id: 1,
+      checklistId: 2,
+      title: 'Biology homework',
+      status: 'Done',
     },
   ],
 };
