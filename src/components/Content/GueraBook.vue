@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-layout
-      row
-    >
-      <v-btn
-        color="#A7E2D2"
-        depressed
-        @click="createBoard"
-      >
+    <v-layout row>
+      <v-btn color="#A7E2D2" depressed @click="createBoard">
         Create Board
       </v-btn>
     </v-layout>
@@ -23,19 +17,19 @@
     <CreateBoard
       v-on:closed-modal="closeModal"
       :createBoardDialog="createBoardDialog"
-      />
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Board from '@/components/Content/Board.vue';
 import CreateBoard from '@/components/Details/CreateBoard.vue';
 
 @Component({
   components: {
     Board,
-    CreateBoard
+    CreateBoard,
   },
 })
 export default class GueraBook extends Vue {
@@ -43,8 +37,16 @@ export default class GueraBook extends Vue {
 
   private createBoardDialog: boolean = false;
 
-  async created() {
-    this.$store.dispatch('board/getBoards');
+  get userId() {
+    return this.$store.getters['userId'];
+  }
+
+  @Watch('userId')
+  onEditingTitleChanged(val: string, oldVal: string) {
+    if (val) {
+      this.$store.dispatch('board/createOrSetGuerabook');
+      this.$store.dispatch('board/getBoards');
+    }
   }
 
   get boards() {

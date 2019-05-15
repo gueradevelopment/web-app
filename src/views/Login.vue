@@ -23,6 +23,19 @@
               <v-spacer></v-spacer>
             </v-flex>
           </v-layout>
+          <v-layout align-center justify-center row wrap>
+            <v-flex class="text-xs-center">
+              <v-btn
+                @click="popupLogin"
+                class="mb-3 mt-3"
+                outline
+                color="indigo"
+              >
+                <img class="icon" src="@/assets/solid.png" />
+                Login with Solid
+              </v-btn>
+            </v-flex>
+          </v-layout>
         </v-container>
       </v-card>
     </v-layout>
@@ -47,6 +60,13 @@ export default class Login extends Vue {
 
   loginGoogle() {
     window.location.href = `${process.env.VUE_APP_AUTH_HOST}/auth/google/login`;
+  }
+
+  async popupLogin() {
+    let session = await solid.auth.currentSession();
+    let popupUri = 'https://fornesarturo.solid.community/common/popup.html';
+    if (!session) session = await solid.auth.popupLogin({ popupUri });
+    window.location.href = 'http://localhost:8080/#/';
   }
 }
 </script>

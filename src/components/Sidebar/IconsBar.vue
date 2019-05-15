@@ -71,10 +71,16 @@ export default class IconsBar extends Vue {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
-    }).then(res => {
-      document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-      window.location.href = 'http://localhost:8080/#/login';
-    });
+    })
+      .then(res => {
+        localStorage.removeItem('solid-auth-client');
+        this.$store.dispatch('updateUserId', '');
+        document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+        window.location.href = 'http://localhost:8080/#/login';
+      })
+      .catch(err => {
+        localStorage.removeItem('solid-auth-client');
+      });
   }
 
   showDropdownChanged(e: boolean) {

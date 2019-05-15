@@ -39,22 +39,43 @@ export default class Dashboard extends Vue {
   }
 
   mounted() {
-    fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/validate`, {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'include',
-    }).then(res => {
-      if (!res.status || res.status !== 200) {
-        window.location.href = 'http://localhost:8080/#/login';
-      }
-      res.json().then(data => {
-        var d = new Date();
-        d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
-        var expires = 'expires=' + d.toUTCString();
-        document.cookie = 'email=' + data.Email + ';' + expires + ';path=/';
-        console.log(document.cookie);
-      });
-    });
+    solid.auth
+      .currentSession()
+      .then((session: any) => {
+        if (session) {
+          var d = new Date();
+          d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+          var expires = 'expires=' + d.toUTCString();
+          var id = session.webId.replace(/\//g, '');
+          id = id.replace(/\./g, '');
+          id = id.replace(/#/g, '');
+          id = id.replace(/:/g, '');
+          this.$store.dispatch('updateUserId', id);
+          document.cookie = 'email=' + id + ';' + expires + ';path=/';
+          window.location.href = 'http://localhost:8080/#/';
+        } else {
+          fetch(`${process.env.VUE_APP_AUTH_HOST}/auth/validate`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          }).then(res => {
+            if (!res.status || res.status !== 200) {
+              this.$store.dispatch('updateUserId', '');
+              window.location.href = 'http://localhost:8080/#/login';
+            }
+            res.json().then(data => {
+              var d = new Date();
+              d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+              var expires = 'expires=' + d.toUTCString();
+              this.$store.dispatch('updateUserId', data.Email);
+              document.cookie =
+                'email=' + data.Email + ';' + expires + ';path=/';
+              window.location.href = 'http://localhost:8080/#/';
+            });
+          });
+        }
+      })
+      .catch((err: any) => console.log(err));
   }
 
   showDropdownChanged(e: boolean) {

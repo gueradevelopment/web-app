@@ -42,7 +42,9 @@
               <span class="ml-2 headline font-weight-light">El Guera</span>
             </v-layout>
             <v-layout
-              v-if="currentTask.description != null"
+              v-if="
+                currentTask.description != null && currentTask.description != ''
+              "
               row
               class="mt-4 subheading editable"
             >
@@ -82,10 +84,10 @@
                 <div v-for="task of newMiniTasks" :key="task.id">
                   <v-layout align-start justify-space-between row>
                     <v-checkbox
-                      v-model="task.status"
+                      v-model="task.completionState"
                       :label="task.title"
                       true-value="Done"
-                      false-value="To-Do"
+                      false-value="Todo"
                     ></v-checkbox>
                     <v-btn
                       @click="deleteMiniTask(task.id)"
@@ -109,7 +111,7 @@
             </v-layout>
             <v-layout row class="mt-5">
               <v-select
-                :items="status"
+                :items="completionState"
                 :value="newTaskStatus"
                 solo
                 flat
@@ -131,7 +133,7 @@
                     !(
                       this.editingDescriptionText ||
                       this.editingTitleText ||
-                      this.currentTask.status != this.newTaskStatus ||
+                      this.currentTask.completionState != this.newTaskStatus ||
                       !compareMiniTasks
                     )
                 "
@@ -167,7 +169,7 @@ import _ from 'lodash';
 export default class TaskDetail extends Vue {
   @Prop({ required: true }) currentTask!: Task;
   @Prop({ required: true }) dialog!: boolean;
-  private status: string[] = ['To-Do', 'Doing', 'Done'];
+  private completionState: string[] = ['Todo', 'Doing', 'Done'];
   private editingTitle: boolean = false;
   private editingTitleText: string = '';
   private editingDescription: boolean = false;
@@ -179,7 +181,7 @@ export default class TaskDetail extends Vue {
 
   constructor() {
     super();
-    this.newTaskStatus = this.currentTask.status;
+    this.newTaskStatus = this.currentTask.completionState;
     this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
   }
 
@@ -210,10 +212,10 @@ export default class TaskDetail extends Vue {
     this.editingDescriptionText =
       this.editingDescriptionText || this.currentTask.description!;
     this.$store.dispatch('task/updateTask', {
-      ...this.currentTask,
+      id: this.currentTask.id,
       title: this.editingTitleText,
       description: this.editingDescriptionText,
-      status: this.newTaskStatus,
+      completionState: this.newTaskStatus,
       miniTasks: !this.compareMiniTasks ? this.newMiniTasks : null,
       deletedMiniTasks:
         this.deletedMiniTasks.length > 0 ? this.deletedMiniTasks : null,
@@ -221,17 +223,17 @@ export default class TaskDetail extends Vue {
     this.editingTitleText = '';
     this.editingDescriptionText = '';
     this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
-    // this.newTaskStatus = this.currentTask.status;
+    this.deletedMiniTasks = [];
+    // this.newTaskStatus = this.currentTask.completionState;
   }
 
   newMiniTask() {
     this.newMiniTasks = [
       ...this.newMiniTasks,
       {
-        id: this.maxMiniTaskIndex,
         title: this.newMiniTaskTitle,
         checklistId: this.currentTask.id,
-        status: 'To-Do',
+        completionState: 'Todo',
         new: true,
       },
     ];
@@ -265,7 +267,7 @@ export default class TaskDetail extends Vue {
     if (!val) {
       this.editingDescriptionText = '';
       this.editingTitleText = '';
-      this.newTaskStatus = this.currentTask.status;
+      this.newTaskStatus = this.currentTask.completionState;
       this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
       this.closeModal();
     }

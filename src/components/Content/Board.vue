@@ -6,8 +6,8 @@
           ><span>{{ title }}</span></router-link
         >
         <v-btn @click="deleteBoard" large flat icon color="#4D4D4D">
-            <v-icon medium color="#4D4D4D">delete</v-icon>
-          </v-btn>
+          <v-icon medium color="#4D4D4D">delete</v-icon>
+        </v-btn>
       </v-layout>
     </div>
     <v-layout row align-center class="rounded-border">
@@ -76,7 +76,7 @@ export default class Board extends Vue {
   }
 
   deleteBoard() {
-    this.$store.dispatch("board/deleteBoard", this.id);
+    this.$store.dispatch('board/deleteBoard', this.id);
   }
 }
 </script>
