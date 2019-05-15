@@ -53,9 +53,9 @@ export default {
       }
       delete updatedTask.miniTasks;
       // Update task in general
-      updateTaskRequest(updatedTask);
-      dispatch('getTasks');
-      commit('updateTask', updatedTask);
+      updateTaskRequest(updatedTask).then(() => {
+        getTasksRequest().then((tasks: any) => commit('setTasks', tasks));
+      });
     },
     updateMiniTasks: function(
       { commit }: { commit: any },
