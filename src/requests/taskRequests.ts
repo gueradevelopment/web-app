@@ -49,6 +49,17 @@ async function createTaskRequest(task: any) {
     .then(postedId => getSingleTaskRequest(postedId));
 }
 
+function updateTaskRequest(task: any) {
+  const email = getCookieEmail();
+  return instance.put('/checklists/', {
+    userId: email,
+    title: task.title,
+    description: task.description,
+    completionState: task.completionState,
+    id: task.id,
+  });
+}
+
 function getSingleMinitaskRequest(id: string) {
   return instance.get(`/tasks/${id}`).then(response => response.data);
 }
@@ -92,6 +103,7 @@ export {
   getTasksRequest,
   getMinitasksRequest,
   createTaskRequest,
+  updateTaskRequest,
   deleteTaskRequest,
   createMinitaskRequest,
   updateMinitaskRequest,

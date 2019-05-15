@@ -212,7 +212,7 @@ export default class TaskDetail extends Vue {
     this.editingDescriptionText =
       this.editingDescriptionText || this.currentTask.description!;
     this.$store.dispatch('task/updateTask', {
-      ...this.currentTask,
+      id: this.currentTask.id,
       title: this.editingTitleText,
       description: this.editingDescriptionText,
       completionState: this.newTaskStatus,
@@ -223,6 +223,7 @@ export default class TaskDetail extends Vue {
     this.editingTitleText = '';
     this.editingDescriptionText = '';
     this.newMiniTasks = this.miniTasks.map((a: any) => ({ ...a }));
+    this.deletedMiniTasks = [];
     // this.newTaskStatus = this.currentTask.completionState;
   }
 

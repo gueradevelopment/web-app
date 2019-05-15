@@ -24,7 +24,7 @@
                 v-for="task in toDoTasks"
                 :key="task.id"
               >
-                <Task :id="task.id" :board-id="boardId" />
+                <Task :id="task.id" :board-id="id" />
               </v-layout>
             </div>
           </v-layout>
@@ -40,7 +40,7 @@
                 v-for="task in doingTasks"
                 :key="task.id"
               >
-                <Task :id="task.id" :board-id="boardId" />
+                <Task :id="task.id" :board-id="id" />
               </v-layout>
             </div>
           </v-layout>
@@ -56,7 +56,7 @@
                 v-for="task in doneTasks"
                 :key="task.id"
               >
-                <Task :id="task.id" :board-id="boardId" />
+                <Task :id="task.id" :board-id="id" />
               </v-layout>
             </div>
           </v-layout>
@@ -67,10 +67,10 @@
       v-on:closed-modal="closeModal"
       :currentTask="{}"
       :createDialog="createDialog"
-      :boardId="boardId"
+      :boardId="id"
     />
     <UpdateBoard
-      :id="boardId"
+      :id="id"
       :title="title"
       :updateBoardDialog="updateBoardDialog"
       v-on:closed-modal="closeUpdateModal"
@@ -98,22 +98,18 @@ export default class BoardDetail extends Vue {
   private createDialog: boolean = false;
   private updateBoardDialog: boolean = false;
 
-  created() {
+  async created() {
     this.$store.dispatch('board/createOrSetGuerabook');
     this.$store.dispatch('board/getBoards');
     this.$store.dispatch('task/getTasks');
   }
 
-  get boardId() {
-    return parseInt(this.id);
-  }
-
   get title() {
-    return this.$store.getters['board/boardDetails'](this.boardId).title;
+    return this.board ? this.board.title : '';
   }
 
   get board() {
-    return this.$store.getters['board/boardDetails'](this.boardId);
+    return this.$store.getters['board/boardDetails'](this.id);
   }
 
   get tasks() {
@@ -121,15 +117,15 @@ export default class BoardDetail extends Vue {
   }
 
   get toDoTasks() {
-    return this.tasks.filter((val: any) => val.status == 'To-Do');
+    return this.tasks.filter((val: any) => val.completionState == 'Todo');
   }
 
   get doingTasks() {
-    return this.tasks.filter((val: any) => val.status == 'Doing');
+    return this.tasks.filter((val: any) => val.completionState == 'Doing');
   }
 
   get doneTasks() {
-    return this.tasks.filter((val: any) => val.status == 'Done');
+    return this.tasks.filter((val: any) => val.completionState == 'Done');
   }
 
   newTask() {

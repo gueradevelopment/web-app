@@ -2,6 +2,7 @@ import {
   getTasksRequest,
   getMinitasksRequest,
   createTaskRequest,
+  updateTaskRequest,
   deleteTaskRequest,
   updateMinitaskRequest,
   createMinitaskRequest,
@@ -52,6 +53,8 @@ export default {
       }
       delete updatedTask.miniTasks;
       // Update task in general
+      updateTaskRequest(updatedTask);
+      dispatch('getTasks');
       commit('updateTask', updatedTask);
     },
     updateMiniTasks: function(
@@ -113,8 +116,10 @@ export default {
       state.tasks = [...state.tasks, task];
     },
     updateTask: function(state: any, updatedTask: any) {
-      state.tasks.findIndex((element: any) => element.id == updatedTask.id);
-      state.tasks.splice(updatedTask.id, 1, updatedTask);
+      const i = state.tasks.findIndex(
+        (element: any) => element.id == updatedTask.id
+      );
+      state.tasks.splice(i, 1, updatedTask);
     },
     deleteTask: function(state: any, taskId: any) {
       state.tasks = state.tasks.filter((val: any) => val.id != taskId);

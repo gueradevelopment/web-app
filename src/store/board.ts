@@ -21,9 +21,11 @@ export default {
       commit: any;
     }) {
       if (!state.guerabookId) {
-        getGuerabooksRequest().then(guerabookId =>
-          commit('setGuerabookId', guerabookId)
-        );
+        getGuerabooksRequest()
+          .then(guerabookId => commit('setGuerabookId', guerabookId))
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
     getBoards: function({ state, commit }: { state: any; commit: any }) {
