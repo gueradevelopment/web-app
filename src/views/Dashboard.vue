@@ -43,7 +43,6 @@ export default class Dashboard extends Vue {
       .currentSession()
       .then((session: any) => {
         if (session) {
-          console.log(session);
           var d = new Date();
           d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
           var expires = 'expires=' + d.toUTCString();
@@ -51,7 +50,7 @@ export default class Dashboard extends Vue {
           id = id.replace(/\./g, '');
           id = id.replace(/#/g, '');
           id = id.replace(/:/g, '');
-          console.log(id);
+          this.$store.dispatch('updateUserId', id);
           document.cookie = 'email=' + id + ';' + expires + ';path=/';
           window.location.href = 'http://localhost:8080/#/';
         } else {
@@ -61,12 +60,14 @@ export default class Dashboard extends Vue {
             credentials: 'include',
           }).then(res => {
             if (!res.status || res.status !== 200) {
+              this.$store.dispatch('updateUserId', '');
               window.location.href = 'http://localhost:8080/#/login';
             }
             res.json().then(data => {
               var d = new Date();
               d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
               var expires = 'expires=' + d.toUTCString();
+              this.$store.dispatch('updateUserId', data.Email);
               document.cookie =
                 'email=' + data.Email + ';' + expires + ';path=/';
               window.location.href = 'http://localhost:8080/#/';
@@ -97,6 +98,7 @@ export default class Dashboard extends Vue {
   height: 100%;
   left: 100px;
   max-height: calc(100% - 20px);
+  overflow-y: scroll;
 }
 
 #content.sidebarActive {

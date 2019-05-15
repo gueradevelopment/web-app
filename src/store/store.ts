@@ -11,7 +11,22 @@ export default new Vuex.Store({
     board,
     task,
   },
-  state: {},
-  mutations: {},
-  actions: {},
+  state: {
+    userId: '',
+  },
+  mutations: {
+    setUserId: function(state: any, userId: string) {
+      state.userId = userId;
+    },
+  },
+  actions: {
+    updateUserId: function({ commit }: { commit: any }, userId: string) {
+      commit('setUserId', userId);
+    },
+  },
+  getters: {
+    userId: function(state: any) {
+      return state.userId;
+    },
+  },
 });

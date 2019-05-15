@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Task from '@/components/Content/Task.vue';
 import CreateTask from '@/components/Details/CreateTask.vue';
 import UpdateBoard from '@/components/Details/EditBoard.vue';
@@ -98,10 +98,17 @@ export default class BoardDetail extends Vue {
   private createDialog: boolean = false;
   private updateBoardDialog: boolean = false;
 
-  async created() {
-    this.$store.dispatch('board/createOrSetGuerabook');
-    this.$store.dispatch('board/getBoards');
-    this.$store.dispatch('task/getTasks');
+  get userId() {
+    return this.$store.getters['userId'];
+  }
+
+  @Watch('userId')
+  onEditingTitleChanged(val: string, oldVal: string) {
+    if (val) {
+      this.$store.dispatch('board/createOrSetGuerabook');
+      this.$store.dispatch('board/getBoards');
+      this.$store.dispatch('task/getTasks');
+    }
   }
 
   get title() {

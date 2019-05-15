@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Board from '@/components/Content/Board.vue';
 import CreateBoard from '@/components/Details/CreateBoard.vue';
 
@@ -37,9 +37,16 @@ export default class GueraBook extends Vue {
 
   private createBoardDialog: boolean = false;
 
-  async created() {
-    this.$store.dispatch('board/createOrSetGuerabook');
-    this.$store.dispatch('board/getBoards');
+  get userId() {
+    return this.$store.getters['userId'];
+  }
+
+  @Watch('userId')
+  onEditingTitleChanged(val: string, oldVal: string) {
+    if (val) {
+      this.$store.dispatch('board/createOrSetGuerabook');
+      this.$store.dispatch('board/getBoards');
+    }
   }
 
   get boards() {

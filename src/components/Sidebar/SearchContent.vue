@@ -66,8 +66,10 @@ export default class SearchContent extends Vue {
     // MOCK JSON RESPONSE
     if (this.queryText.length > 0) {
       this.result = {
-        tasks: this.$store.getters['task/search'](this.queryText),
-        boards: this.$store.getters['board/search'](this.queryText),
+        tasks: this.$store.getters['task/search'](this.queryText.toLowerCase()),
+        boards: this.$store.getters['board/search'](
+          this.queryText.toLowerCase()
+        ),
       };
     } else {
       this.result = {};

@@ -66,8 +66,6 @@ export default class Login extends Vue {
     let session = await solid.auth.currentSession();
     let popupUri = 'https://fornesarturo.solid.community/common/popup.html';
     if (!session) session = await solid.auth.popupLogin({ popupUri });
-    alert(`Logged in as ${session.webId}`);
-    console.log(session);
     window.location.href = 'http://localhost:8080/#/';
   }
 }
