@@ -67,9 +67,9 @@ function createBoardRequest(title: string, guerabookId: string) {
     .then(postedId => getSingleBoardRequest(postedId));
 }
 
-function updateBoardRequest(newBoard: any) {
+function updateBoardRequest(newBoard: any, guerabookId: any) {
   const email = getCookieEmail();
-  return instance.put(`/boards/`, { ...newBoard, email });
+  return instance.put(`/boards/`, { ...newBoard, userId: email, guerabookId });
 }
 
 export {

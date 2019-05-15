@@ -64,7 +64,7 @@ export default {
       state.boards = state.boards.filter((val: any) => val.id != boardId);
     },
     updateBoard: function(state: any, board: any) {
-      updateBoardRequest(board).then(() => {
+      updateBoardRequest(board, state.guerabookId).then(() => {
         const i = state.boards.findIndex((val: any) => val.id == board.id);
         state.boards.splice(i, 1, board);
       });
